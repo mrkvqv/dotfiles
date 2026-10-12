@@ -19,8 +19,3 @@ def color(style, key, fallback=None):
             return fallback
         raise ValueError(f"Invalid theme color: {key}")
     return value
-
-
-def ansi_color(value, bold=False):
-    red, green, blue = (int(value[index:index + 2], 16) for index in (1, 3, 5))
-    return f"\033[{'1;' if bold else ''}38;2;{red};{green};{blue}m"

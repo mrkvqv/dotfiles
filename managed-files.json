@@ -10,7 +10,6 @@
   ".config/fish/functions/ls.fish",
   ".config/fish/functions/theme-sync.fish",
   ".config/fish/functions/zed.fish",
-  ".config/fish/nls_table.py",
   ".config/gh/config.yml",
   ".config/ghostty/config",
   ".config/ghostty/sync_zed_theme.py",

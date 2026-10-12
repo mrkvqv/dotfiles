@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HOME = Path.home()
 PATTERNS = [
     ".gitconfig", ".zshrc", ".zshenv", ".profile",
-    ".config/fish/config.fish", ".config/fish/*.py",
+    ".config/fish/config.fish",
     ".config/fish/conf.d/*.fish", ".config/fish/functions/*.fish",
     ".config/ghostty/config", ".config/ghostty/*.py", ".config/ghostty/themes/*",
     ".config/theme_utils.py", ".config/starship.toml",
