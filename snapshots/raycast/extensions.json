@@ -1,0 +1,26 @@
+[
+  {
+    "name": "spotify-player",
+    "title": "Spotify Player"
+  },
+  {
+    "name": "color-picker",
+    "title": "Color Picker"
+  },
+  {
+    "name": "github",
+    "title": "GitHub"
+  },
+  {
+    "name": "visual-studio-code",
+    "title": "Visual Studio Code"
+  },
+  {
+    "name": "linear",
+    "title": "Linear"
+  },
+  {
+    "name": "kill-process",
+    "title": "Kill Process"
+  }
+]

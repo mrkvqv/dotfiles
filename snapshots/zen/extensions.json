@@ -1,0 +1,47 @@
+[
+  {
+    "id": "{7be2ba16-0f1e-4d93-9ebc-5164397477a9}",
+    "name": "Video Speed Controller",
+    "version": "0.6.3.3"
+  },
+  {
+    "id": "uBlock0@raymondhill.net",
+    "name": "uBlock Origin",
+    "version": "1.75.0"
+  },
+  {
+    "id": "78272b6fa58f4a1abaac99321d503a20@proton.me",
+    "name": "Proton Pass: Free Password Manager",
+    "version": "1.41.1"
+  },
+  {
+    "id": "formautofill@mozilla.org",
+    "name": "Form Autofill",
+    "version": "1.0.1"
+  },
+  {
+    "id": "ipp-activator@mozilla.com",
+    "name": "IPP Activator",
+    "version": "0.3"
+  },
+  {
+    "id": "newtab@mozilla.org",
+    "name": "New Tab",
+    "version": "157.1.0"
+  },
+  {
+    "id": "pictureinpicture@mozilla.org",
+    "name": "Picture-In-Picture",
+    "version": "1.0.0"
+  },
+  {
+    "id": "addons-search-detection@mozilla.com",
+    "name": "Add-ons Search Detection",
+    "version": "3.0.0"
+  },
+  {
+    "id": "webcompat@mozilla.org",
+    "name": "Web Compatibility Interventions",
+    "version": "157.1.0"
+  }
+]
