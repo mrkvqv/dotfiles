@@ -3,6 +3,7 @@
 format = """
 $username\
 $hostname\
+$shell\
 $directory\
 $git_branch\
 $git_state\
@@ -11,6 +12,22 @@ $cmd_duration\
 $line_break\
 $python\
 $character"""
+
+[shell]
+disabled = false
+format = '[$indicator]($style)'
+style = 'bold #9EB8D8'
+bash_indicator = 'bash '
+fish_indicator = ''
+zsh_indicator = ''
+powershell_indicator = ''
+ion_indicator = ''
+elvish_indicator = ''
+tcsh_indicator = ''
+nu_indicator = ''
+xonsh_indicator = ''
+cmd_indicator = ''
+unknown_indicator = ''
 
 [directory]
 style = "blue"
@@ -41,7 +58,7 @@ style = "bright-black"
 
 [cmd_duration]
 format = "[$duration]($style) "
-style = "yellow"
+style = "#9EB8D8"
 
 [python]
 format = "[$virtualenv]($style) "

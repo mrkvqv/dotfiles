@@ -1,0 +1,56 @@
+# Fish-style inline suggestions. Colors are read from the shared palette.
+bleopt complete_auto_complete=1
+bleopt complete_auto_history=1
+# Let ble.sh manage shared history; the Readline fallback has its own hook.
+bleopt history_share=1
+bleopt complete_auto_delay=200
+
+# Preserve the existing history and completion keys inside the ble.sh editor.
+ble-bind -m emacs -f up history-search-backward
+ble-bind -m emacs -f down history-search-forward
+ble-bind -m emacs -f C-r history-isearch-backward
+
+# Keep the cursor as a vertical line, including while accepting suggestions.
+bleopt term_cursor_external=5
+ble-bind -m emacs --cursor 5
+ble-bind -m auto_complete --cursor 5
+ble-bind -m auto_complete -f TAB auto_complete/insert
+ble-bind -m auto_complete -f C-i auto_complete/insert
+ble-bind -m emacs -f S-TAB complete
+
+# Read color data without sourcing or executing the palette file.
+__ble_apply_shared_colors() {
+    local role color face
+    local palette_file="${XDG_CONFIG_HOME:-$HOME/.config}/shell/colors.conf"
+    [[ -r $palette_file ]] || return 0
+    while IFS='=' read -r role color; do
+        [[ $color =~ ^[0-9a-fA-F]{6}$ ]] || continue
+        case $role in
+            command)
+                for face in syntax_command command_builtin_dot command_builtin command_file command_alias command_function command_jobs; do
+                    ble-face -s "$face" "fg=#$color"
+                done ;;
+            parameter) ble-face -s syntax_default "fg=#$color" ;;
+            path)
+                for face in command_directory filename_directory filename_link filename_executable filename_other filename_url; do
+                    ble-face -s "$face" "fg=#$color,underline"
+                done ;;
+            suggestion) ble-face -s auto_complete "fg=#$color,bg=none" ;;
+            error)
+                ble-face -s syntax_error "fg=#$color,bg=none"
+                ble-face -s argument_error "fg=#$color,bg=none"
+                ble-face -s filename_warning "fg=#$color" ;;
+            comment) ble-face -s syntax_comment "fg=#$color" ;;
+            keyword) ble-face -s command_keyword "fg=#$color" ;;
+            option) ble-face -s argument_option "fg=#$color" ;;
+            quote)
+                ble-face -s syntax_quoted "fg=#$color"
+                ble-face -s syntax_quotation "fg=#$color" ;;
+            operator) ble-face -s syntax_delimiter "fg=#$color,bold" ;;
+            escape) ble-face -s syntax_escape "fg=#$color" ;;
+            end) ble-face -s syntax_document_begin "fg=#$color,bold" ;;
+        esac
+    done < "$palette_file"
+}
+__ble_apply_shared_colors
+unset -f __ble_apply_shared_colors

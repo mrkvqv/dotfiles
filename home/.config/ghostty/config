@@ -1,5 +1,7 @@
 theme = Midnight MacBook
 background-blur = 80
+cursor-color = #FFFFFF
+cursor-style = bar
 
 
 keybind = alt+1=goto_tab:1

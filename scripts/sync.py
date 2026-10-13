@@ -11,11 +11,11 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 HOME = Path.home()
 PATTERNS = [
-    ".gitconfig", ".zshrc", ".zshenv", ".profile",
+    ".gitconfig", ".zshrc", ".zshenv", ".profile", ".bashrc", ".bash_profile", ".blerc",
     ".config/fish/config.fish",
     ".config/fish/conf.d/*.fish", ".config/fish/functions/*.fish",
     ".config/ghostty/config", ".config/ghostty/*.py", ".config/ghostty/themes/*",
-    ".config/theme_utils.py", ".config/starship.toml",
+    ".config/theme_utils.py", ".config/starship.toml", ".config/shell/colors.conf",
     ".config/zed/settings.json", ".config/zed/keymap.json", ".config/zed/themes/*.json",
     ".config/gh/config.yml", ".config/karabiner/karabiner.json", ".config/lsd/config.yaml",
     ".config/opencode/opencode.json", ".config/opencode/package.json", ".config/opencode/package-lock.json",

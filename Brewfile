@@ -4,6 +4,8 @@ tap "nolight132/tap", trusted: true
 tap "vishvavariya/notchy", trusted: { casks: ["notchy"] }
 # To build and run Airflow DAGs locally and interact with the Astronomer API
 brew "astro"
+# Modern interactive Bash (the system Bash remains available at /bin/bash)
+brew "bash"
 # Like neofetch, but much faster because written mostly in C
 brew "fastfetch"
 # Play, record, convert, and stream select audio and video codecs
