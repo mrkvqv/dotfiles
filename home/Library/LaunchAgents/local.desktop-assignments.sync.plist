@@ -7,13 +7,14 @@
     <key>ProgramArguments</key>
     <array>
         <string>__HOME__/.local/bin/desktop-assignments-sync</string>
+        <string>--watch</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
-    <key>WatchPaths</key>
-    <array>
-        <string>__HOME__/.config/desktop-assignments.json</string>
-    </array>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
     <key>ProcessType</key>
     <string>Background</string>
     <key>StandardOutPath</key>

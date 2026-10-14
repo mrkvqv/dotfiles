@@ -4,20 +4,21 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Cmd+1..5 -> Ctrl+1..5 desktops (simple remap)",
+                        "description": "Cmd+1..5 -> desktops via native Dock gestures (no Ctrl shortcuts)",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "1",
                                     "modifiers": {
-                                        "mandatory": ["command"],
-                                        "optional": ["any"]
+                                        "mandatory": [
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "1",
-                                        "modifiers": ["left_control"]
+                                        "shell_command": "\"$HOME/.local/bin/desktop-switch\" 1 >> \"$HOME/Library/Logs/desktop-switch.log\" 2>&1",
+                                        "repeat": false
                                     }
                                 ],
                                 "type": "basic"
@@ -26,14 +27,15 @@
                                 "from": {
                                     "key_code": "2",
                                     "modifiers": {
-                                        "mandatory": ["command"],
-                                        "optional": ["any"]
+                                        "mandatory": [
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "2",
-                                        "modifiers": ["left_control"]
+                                        "shell_command": "\"$HOME/.local/bin/desktop-switch\" 2 >> \"$HOME/Library/Logs/desktop-switch.log\" 2>&1",
+                                        "repeat": false
                                     }
                                 ],
                                 "type": "basic"
@@ -42,14 +44,15 @@
                                 "from": {
                                     "key_code": "3",
                                     "modifiers": {
-                                        "mandatory": ["command"],
-                                        "optional": ["any"]
+                                        "mandatory": [
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "3",
-                                        "modifiers": ["left_control"]
+                                        "shell_command": "\"$HOME/.local/bin/desktop-switch\" 3 >> \"$HOME/Library/Logs/desktop-switch.log\" 2>&1",
+                                        "repeat": false
                                     }
                                 ],
                                 "type": "basic"
@@ -58,14 +61,15 @@
                                 "from": {
                                     "key_code": "4",
                                     "modifiers": {
-                                        "mandatory": ["command"],
-                                        "optional": ["any"]
+                                        "mandatory": [
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "4",
-                                        "modifiers": ["left_control"]
+                                        "shell_command": "\"$HOME/.local/bin/desktop-switch\" 4 >> \"$HOME/Library/Logs/desktop-switch.log\" 2>&1",
+                                        "repeat": false
                                     }
                                 ],
                                 "type": "basic"
@@ -74,14 +78,15 @@
                                 "from": {
                                     "key_code": "5",
                                     "modifiers": {
-                                        "mandatory": ["command"],
-                                        "optional": ["any"]
+                                        "mandatory": [
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "5",
-                                        "modifiers": ["left_control"]
+                                        "shell_command": "\"$HOME/.local/bin/desktop-switch\" 5 >> \"$HOME/Library/Logs/desktop-switch.log\" 2>&1",
+                                        "repeat": false
                                     }
                                 ],
                                 "type": "basic"
@@ -89,20 +94,26 @@
                         ]
                     },
                     {
-                        "description": "Top-left (§£) key -> `/~ like US (plain=`, shift=~)",
+                        "description": "Top-left (\u00a7\u00a3) key -> `/~ like US (plain=`, shift=~)",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "grave_accent_and_tilde",
                                     "modifiers": {
-                                        "mandatory": ["shift"],
-                                        "optional": ["any"]
+                                        "mandatory": [
+                                            "shift"
+                                        ],
+                                        "optional": [
+                                            "any"
+                                        ]
                                     }
                                 },
                                 "to": [
                                     {
                                         "key_code": "non_us_backslash",
-                                        "modifiers": ["left_shift"]
+                                        "modifiers": [
+                                            "left_shift"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -110,9 +121,17 @@
                             {
                                 "from": {
                                     "key_code": "grave_accent_and_tilde",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
                                 },
-                                "to": [{ "key_code": "non_us_backslash" }],
+                                "to": [
+                                    {
+                                        "key_code": "non_us_backslash"
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -121,7 +140,9 @@
             },
             "name": "Default profile",
             "selected": true,
-            "virtual_hid_keyboard": { "keyboard_type_v2": "iso" }
+            "virtual_hid_keyboard": {
+                "keyboard_type_v2": "iso"
+            }
         }
     ]
 }

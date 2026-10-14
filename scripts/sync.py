@@ -17,7 +17,7 @@ PATTERNS = [
     ".config/ghostty/config", ".config/ghostty/*.py", ".config/ghostty/themes/*",
     ".config/theme_utils.py", ".config/starship.toml", ".config/shell/colors.conf",
     ".config/zed/settings.json", ".config/zed/keymap.json", ".config/zed/themes/*.json",
-    ".config/gh/config.yml", ".config/karabiner/karabiner.json", ".config/lsd/config.yaml",
+    ".config/gh/config.yml", ".config/karabiner/karabiner.json", ".config/karabiner/desktop-switch.swift", ".config/lsd/config.yaml",
     ".config/opencode/opencode.json", ".config/opencode/package.json", ".config/opencode/package-lock.json",
     ".config/desktop-assignments.json", ".config/desktop-assignments-sync.swift",
     ".config/desktop-assignments.README.md",
@@ -60,6 +60,7 @@ def export_zen():
         "toolkit.legacyUserProfileCustomizations.stylesheets", "browser.theme.toolbar-theme",
         "browser.tabs.warnOnClose", "browser.tabs.warnOnOpen", "browser.tabs.loadInBackground",
         "browser.startup.page", "browser.urlbar.suggest.searches", "browser.urlbar.suggest.history",
+        "zen.widget.macos.window-vibrancy",
         "browser.urlbar.suggest.bookmark", "privacy.clearOnShutdown_v2.formdata",
         "privacy.globalprivacycontrol.enabled", "privacy.donottrackheader.enabled",
         "privacy.trackingprotection.enabled", "privacy.trackingprotection.pbmode.enabled",
@@ -75,7 +76,7 @@ def export_zen():
     for key, value in sorted(preferences.items()):
         content += f"user_pref({json.dumps(key)}, {json.dumps(value)});\n"
     (target / "user.js").write_text(content)
-    for name in ("zen-keyboard-shortcuts.json", "zen-themes.json", "chrome/zen-themes.css"):
+    for name in ("zen-keyboard-shortcuts.json", "zen-themes.json", "chrome/zen-themes.css", "chrome/userContent.css", "chrome/userChrome.css"):
         source = profile / name
         if source.exists():
             output = target / name

@@ -1,0 +1,11 @@
+/* Match Zen's top toolbar background. Only the Settings page is affected. */
+@-moz-document url-prefix("about:preferences") {
+  :root {
+    --background-color-canvas: #121212 !important;
+    --in-content-page-background: #121212 !important;
+    background-color: #121212 !important;
+  }
+  html, body {
+    background-color: #121212 !important;
+  }
+}

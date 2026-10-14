@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 import Darwin
 
 struct SyncError: Error, CustomStringConvertible {
@@ -27,7 +28,103 @@ func resolve(_ config: [String: Int], spaces: [[String: Any]]) throws -> [String
     return desired
 }
 
+// React to preference changes and wake events; no polling timer is used.
+final class DesktopMonitor {
+    let home: URL
+    let worker: URL
+    var sources: [DispatchSourceFileSystemObject] = []
+    var observers: [NSObjectProtocol] = []
+    var pending: DispatchWorkItem?
+    var refreshDock = false
+    var snapshot = Data()
+
+    init(home: URL, worker: URL) {
+        self.home = home
+        self.worker = worker
+        snapshot = fingerprint()
+    }
+
+    func fingerprint() -> Data {
+        let config = (try? Data(contentsOf: home.appendingPathComponent(".config/desktop-assignments.json"))) ?? Data()
+        let path = home.appendingPathComponent("Library/Preferences/com.apple.spaces.plist")
+        let data = (try? Data(contentsOf: path)) ?? Data()
+        let plist = (try? PropertyListSerialization.propertyList(from: data, format: nil)) as? [String: Any] ?? [:]
+        let display = plist["SpacesDisplayConfiguration"] as? [String: Any] ?? [:]
+        let management = display["Management Data"] as? [String: Any] ?? [:]
+        let monitors = management["Monitors"] as? [[String: Any]] ?? []
+        let topology: [[String: Any]] = monitors.compactMap { monitor in
+            guard let spaces = monitor["Spaces"] as? [[String: Any]] else { return nil }
+            return ["display": monitor["Display Identifier"] as? String ?? "",
+                    "spaces": spaces.map { ["uuid": $0["uuid"] as? String ?? "", "type": $0["type"] as? Int ?? -1] }]
+        }
+        let relevant: [String: Any] = ["bindings": plist["app-bindings"] as? [String: Any] ?? [:], "topology": topology]
+        var result = config
+        result.append((try? JSONSerialization.data(withJSONObject: relevant, options: [.sortedKeys])) ?? Data())
+        return result
+    }
+
+    func schedule(forceRefresh: Bool = false, delay: Double = 1) {
+        refreshDock = refreshDock || forceRefresh
+        pending?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            let process = Process()
+            process.executableURL = self.worker
+            process.arguments = self.refreshDock ? ["--refresh-dock"] : []
+            self.refreshDock = false
+            do {
+                try process.run()
+                process.waitUntilExit()
+                if process.terminationStatus != 0 {
+                    print("\(ISO8601DateFormatter().string(from: Date())): recovery exited \(process.terminationStatus); waiting for the next event")
+                }
+            } catch {
+                print("\(ISO8601DateFormatter().string(from: Date())): recovery could not start: \(error)")
+            }
+        }
+        pending = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
+    }
+
+    func start(observeWorkspace: Bool = true) throws {
+        for directory in [".config", "Library/Preferences"] {
+            let path = home.appendingPathComponent(directory).path
+            let descriptor = open(path, O_EVTONLY)
+            guard descriptor >= 0 else { throw SyncError(description: "Cannot watch \(path)") }
+            let source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: descriptor, eventMask: [.write, .rename, .delete], queue: .main)
+            source.setEventHandler { [weak self] in
+                guard let self else { return }
+                let next = self.fingerprint()
+                if next != self.snapshot {
+                    self.snapshot = next
+                    self.schedule()
+                }
+            }
+            source.setCancelHandler { close(descriptor) }
+            sources.append(source)
+            source.resume()
+        }
+        if observeWorkspace {
+            let observer = NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in
+                print("\(ISO8601DateFormatter().string(from: Date())): wake detected; scheduling Spaces recovery")
+                self?.schedule(forceRefresh: true, delay: 4)
+            }
+            observers.append(observer)
+        }
+        schedule()
+    }
+}
+
 do {
+    if CommandLine.arguments.contains("--watch") {
+        setbuf(stdout, nil)
+        let monitor = DesktopMonitor(home: FileManager.default.homeDirectoryForCurrentUser,
+                                     worker: URL(fileURLWithPath: CommandLine.arguments[0]))
+        try monitor.start()
+        print("\(ISO8601DateFormatter().string(from: Date())): monitoring Spaces assignments and wake events")
+        withExtendedLifetime(monitor) { RunLoop.main.run() }
+        exit(0)
+    }
     if CommandLine.arguments.contains("--self-test") {
         let spaces: [[String: Any]] = [
             ["type": 0, "uuid": ""],
@@ -132,11 +229,14 @@ do {
         }
         exit(0)
     }
-    if changes.isEmpty { exit(0) }
-    defaults.set(bindings, forKey: "app-bindings")
-    guard defaults.synchronize() else {
-        throw SyncError(description: "Could not synchronize assignments")
+    if changes.isEmpty && !CommandLine.arguments.contains("--refresh-dock") { exit(0) }
+    if !changes.isEmpty {
+        defaults.set(bindings, forKey: "app-bindings")
+        guard defaults.synchronize() else {
+            throw SyncError(description: "Could not synchronize assignments")
+        }
     }
+    if changes.isEmpty { changes.append("Refresh Dock after wake to restore Spaces shortcuts") }
     let process = Process()
     process.executableURL = URL(fileURLWithPath: "/usr/bin/killall")
     process.arguments = ["Dock"]

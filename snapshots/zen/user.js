@@ -7,3 +7,4 @@ user_pref("zen.swipe.is-fast-swipe", false);
 user_pref("zen.tab-unloader.timeout-minutes", 10);
 user_pref("zen.view.compact.animate-sidebar", false);
 user_pref("zen.view.compact.enable-at-startup", true);
+user_pref("zen.widget.macos.window-vibrancy", false);

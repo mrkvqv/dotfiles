@@ -20,6 +20,7 @@
   ".config/ghostty/config",
   ".config/ghostty/sync_zed_theme.py",
   ".config/ghostty/themes/Midnight MacBook",
+  ".config/karabiner/desktop-switch.swift",
   ".config/karabiner/karabiner.json",
   ".config/lsd/config.yaml",
   ".config/opencode/opencode.json",

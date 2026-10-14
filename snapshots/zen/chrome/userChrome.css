@@ -1,0 +1,8 @@
+/* Solid black background for Zen's compact-mode sidebar only. */
+:root[zen-compact-mode="true"] #navigator-toolbox #titlebar,
+:root[zen-compact-mode="true"] #navigator-toolbox .zen-toolbar-background,
+:root[zen-compact-mode="true"] #navigator-toolbox .zen-toolbar-background::before,
+:root[zen-compact-mode="true"] #navigator-toolbox .zen-toolbar-background::after {
+  background: #000000 !important;
+  backdrop-filter: none !important;
+}
