@@ -27,7 +27,7 @@
   {
     "id": "newtab@mozilla.org",
     "name": "New Tab",
-    "version": "157.1.0"
+    "version": "158.2.0"
   },
   {
     "id": "pictureinpicture@mozilla.org",
@@ -42,6 +42,6 @@
   {
     "id": "webcompat@mozilla.org",
     "name": "Web Compatibility Interventions",
-    "version": "157.1.0"
+    "version": "158.0.0"
   }
 ]

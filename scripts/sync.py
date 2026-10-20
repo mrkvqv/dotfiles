@@ -17,7 +17,8 @@ PATTERNS = [
     ".config/ghostty/config", ".config/ghostty/*.py", ".config/ghostty/themes/*",
     ".config/theme_utils.py", ".config/starship.toml", ".config/shell/colors.conf",
     ".config/zed/settings.json", ".config/zed/keymap.json", ".config/zed/themes/*.json",
-    ".config/gh/config.yml", ".config/karabiner/karabiner.json", ".config/karabiner/desktop-switch.swift", ".config/lsd/config.yaml",
+    ".config/gh/config.yml", ".config/karabiner/karabiner.json", ".config/karabiner/desktop-switch.swift",     ".config/lsd/config.yaml",
+    ".config/zen-startpage/*.html",
     ".config/opencode/opencode.json", ".config/opencode/package.json", ".config/opencode/package-lock.json",
     ".config/desktop-assignments.json", ".config/desktop-assignments-sync.swift",
     ".config/desktop-assignments.README.md",
@@ -37,15 +38,23 @@ def ini():
 
 
 def zen_profile():
-    base = HOME / ".config/zen"
-    config = ini()
-    config.read(base / "installs.ini")
-    for section in config.sections():
-        if config.has_option(section, "Default"):
-            relative = config.get(section, "Default")
-            profile = (base / relative).resolve()
-            if profile.is_dir() and profile.is_relative_to(base.resolve()):
-                return profile
+    # macOS default location first, then Linux/XDG fallback.
+    candidates = [
+        HOME / "Library/Application Support/zen/profiles.ini",
+        HOME / ".config/zen/installs.ini",
+    ]
+    for ini_path in candidates:
+        if not ini_path.is_file():
+            continue
+        base = ini_path.parent
+        config = ini()
+        config.read(ini_path)
+        for section in config.sections():
+            if config.has_option(section, "Default"):
+                relative = config.get(section, "Default")
+                profile = (base / relative).resolve()
+                if profile.is_dir():
+                    return profile
     return None
 
 
@@ -59,8 +68,10 @@ def export_zen():
     names = {
         "toolkit.legacyUserProfileCustomizations.stylesheets", "browser.theme.toolbar-theme",
         "browser.tabs.warnOnClose", "browser.tabs.warnOnOpen", "browser.tabs.loadInBackground",
-        "browser.startup.page", "browser.urlbar.suggest.searches", "browser.urlbar.suggest.history",
+        "browser.startup.page", "browser.startup.homepage", "browser.urlbar.suggest.searches", "browser.urlbar.suggest.history",
         "zen.widget.macos.window-vibrancy",
+        "widget.macos.native-popovers", "zen.theme.acrylic-sidebar",
+        "zen.theme.acrylic-urlbar", "browser.tabs.allow_transparent_browser",
         "browser.urlbar.suggest.bookmark", "privacy.clearOnShutdown_v2.formdata",
         "privacy.globalprivacycontrol.enabled", "privacy.donottrackheader.enabled",
         "privacy.trackingprotection.enabled", "privacy.trackingprotection.pbmode.enabled",
@@ -70,7 +81,7 @@ def export_zen():
         match = re.fullmatch(r'user_pref\("([^"\\]+)", (.*)\);', line)
         if match and (match[1] in names or match[1].startswith(prefixes)):
             value = json.loads(match[2])
-            if isinstance(value, (bool, int, float)):
+            if isinstance(value, (bool, int, float, str)):
                 preferences[match[1]] = value
     content = "// Selected persistent preferences; no browsing history or account data.\n"
     for key, value in sorted(preferences.items()):

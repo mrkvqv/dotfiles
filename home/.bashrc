@@ -102,5 +102,8 @@ if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
 fi
 if [[ ${BLE_VERSION:-} ]]; then
+    # Execute pasted lines normally instead of collecting them in MULTILINE.
+    bleopt term_bracketed_paste_mode=
+    bleopt accept_line_threshold=-1
     ble-attach
 fi

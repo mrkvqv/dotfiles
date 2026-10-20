@@ -32,6 +32,7 @@
   ".config/theme_utils.py",
   ".config/zed/settings.json",
   ".config/zed/themes/midnight-macbook.json",
+  ".config/zen-startpage/startpage.html",
   ".gitconfig",
   ".profile",
   ".zshenv",

@@ -1,8 +1,82 @@
-/* Solid black background for Zen's compact-mode sidebar only. */
+/* Solid black navigation toolbar and compact sidebar. */
+#zen-appcontent-navbar-wrapper,
+#nav-bar,
 :root[zen-compact-mode="true"] #navigator-toolbox #titlebar,
 :root[zen-compact-mode="true"] #navigator-toolbox .zen-toolbar-background,
 :root[zen-compact-mode="true"] #navigator-toolbox .zen-toolbar-background::before,
 :root[zen-compact-mode="true"] #navigator-toolbox .zen-toolbar-background::after {
   background: #000000 !important;
+  backdrop-filter: none !important;
+}
+
+/* Opaque browser popups, including site permissions and extensions. */
+panel,
+menupopup,
+tooltip {
+  --panel-background-color: #121212 !important;
+  --arrowpanel-background: #121212 !important;
+  --panel-border-color: #383838 !important;
+  backdrop-filter: none !important;
+}
+
+panel::part(content),
+menupopup::part(content),
+tooltip::part(content) {
+  background: #121212 !important;
+  border: 1px solid #383838 !important;
+  border-radius: 12px !important;
+  backdrop-filter: none !important;
+}
+
+/* Native popover backgrounds are disabled, so paint the inner views too. */
+panel panelmultiview,
+panel .panel-viewstack,
+menupopup,
+tooltip {
+  background-color: #121212 !important;
+  border-radius: 12px !important;
+}
+
+/* Opaque address bar, suggestions and sidebar surfaces. */
+#urlbar-background,
+#searchbar {
+  background: #282828 !important;
+  backdrop-filter: none !important;
+}
+
+#navigator-toolbox .zen-toolbar-background,
+#navigator-toolbox .zen-toolbar-background::before,
+#navigator-toolbox .zen-toolbar-background::after,
+#sidebar-box,
+#zen-sidebar-web-panel {
+  background: #000000 !important;
+  backdrop-filter: none !important;
+}
+
+/* One opaque surface for the expanded search field and its suggestions. */
+#urlbar[breakout-extend] #urlbar-background,
+#urlbar[open] #urlbar-background,
+#urlbar[breakout-extend] .urlbar-input-container,
+#urlbar[open] .urlbar-input-container,
+#urlbar .urlbarView {
+  background: #181818 !important;
+  backdrop-filter: none !important;
+}
+
+/* Paint popup windows themselves as well as their content parts. */
+panel {
+  appearance: none !important;
+  background: #121212 !important;
+  border-radius: 12px !important;
+}
+
+/* Password, permission and other doorhanger notifications use these
+   containers instead of panelmultiview. */
+panel popupnotification,
+panel .popup-notification-header-container,
+panel .popup-notification-body-container,
+panel .popup-notification-footer-container,
+panel .panel-footer {
+  background: #121212 !important;
   backdrop-filter: none !important;
 }
