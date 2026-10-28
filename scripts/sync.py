@@ -19,6 +19,11 @@ PATTERNS = [
     ".config/zed/settings.json", ".config/zed/keymap.json", ".config/zed/themes/*.json",
     ".config/gh/config.yml", ".config/karabiner/karabiner.json", ".config/karabiner/desktop-switch.swift",     ".config/lsd/config.yaml",
     ".config/zen-startpage/*.html",
+    ".config/zen-startpage/midnight-macbook.css", ".config/zen-startpage/midnight-woven.png",
+    ".config/zen-startpage/bridge/*.swift", ".config/zen-startpage/bridge/*.py",
+    ".config/zen-startpage/bridge/*.js", ".config/zen-startpage/bridge/*.css",
+    ".config/zen-startpage/bridge/*.md",
+    ".t3/userdata/themes/*.json",
     ".config/opencode/opencode.json", ".config/opencode/package.json", ".config/opencode/package-lock.json",
     ".config/desktop-assignments.json", ".config/desktop-assignments-sync.swift",
     ".config/desktop-assignments.README.md",
@@ -131,6 +136,20 @@ def export_qbittorrent():
         data.write(file, space_around_delimiters=False)
 
 
+def export_t3_appearance():
+    """Keep only appearance preferences; never export T3 account or session data."""
+    directory = HOME / ".t3/userdata"
+    result = {}
+    for filename, keys in (("settings.json", ("defaultTheme",)),
+                           ("client-settings.json", ("glassOpacity", "appearanceContrast"))):
+        source = directory / filename
+        if source.is_file():
+            settings = json.loads(source.read_text())
+            result.update({key: settings[key] for key in keys if key in settings})
+    if result:
+        json_file(ROOT / "snapshots/t3/appearance.json", result)
+
+
 def main():
     previous = ROOT / "managed-files.json"
     if previous.exists():
@@ -152,6 +171,7 @@ def main():
     export_qbittorrent()
     export_zen()
     export_raycast()
+    export_t3_appearance()
     extensions = HOME / "Library/Application Support/Zed/extensions/installed"
     json_file(ROOT / "snapshots/zed/extensions.json", sorted(path.name for path in extensions.iterdir() if path.is_dir()))
     files = sorted(str(path.relative_to(ROOT / "home")) for path in (ROOT / "home").rglob("*") if path.is_file())

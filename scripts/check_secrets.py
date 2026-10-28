@@ -13,13 +13,23 @@ PATTERNS = [
 ]
 FIELDS = r"api[_-]?key|oauth[_-]?token|access[_-]?token|refresh[_-]?token|token|password|secret|authorization"
 SECRET_KEY = re.compile(r'''(?im)(?:["'](?:''' + FIELDS + r''')["']|^\s*(?:''' + FIELDS + r'''))\s*[:=]\s*["']?([^\s,"'}]+)''')
-FORBIDDEN = {"hosts.yml", "fish_variables", "auth.json", "aster-endpoint.json", "logins.json", "cookies.sqlite", "prefs.js", "qBittorrent-data.ini"}
+FORBIDDEN = {"hosts.yml", "fish_variables", "auth.json", "aster-endpoint.json", "logins.json", "cookies.sqlite", "prefs.js", "qBittorrent-data.ini", "calendar-bridge-config.js"}
 problems = []
-files = {str(path.relative_to(ROOT)): path.read_text() for directory in (ROOT / "home", ROOT / "snapshots") for path in directory.rglob("*") if path.is_file()}
+def text_content(name, data):
+    if Path(name).suffix.lower() == ".png" and data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return ""
+    try:
+        return data.decode("utf-8")
+    except UnicodeDecodeError:
+        problems.append(f"Unexpected binary file: {name}")
+        return ""
+
+
+files = {str(path.relative_to(ROOT)): text_content(str(path.relative_to(ROOT)), path.read_bytes()) for directory in (ROOT / "home", ROOT / "snapshots") for path in directory.rglob("*") if path.is_file() and path.name != ".DS_Store"}
 if (ROOT / ".git").exists():
     staged = subprocess.check_output(["git", "diff", "--cached", "--name-only", "--diff-filter=ACM", "-z"], cwd=ROOT).decode().split("\0")
     for name in filter(None, staged):
-        files[name] = subprocess.check_output(["git", "show", f":{name}"], cwd=ROOT).decode()
+        files[name] = text_content(name, subprocess.check_output(["git", "show", f":{name}"], cwd=ROOT))
 for name, text in files.items():
     relative = Path(name)
     if relative.name in FORBIDDEN or "node_modules" in relative.parts:

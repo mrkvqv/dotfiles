@@ -29,6 +29,10 @@ for name in json.loads((ROOT / "managed-files.json").read_text()):
         saved = backup / relative
         saved.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(target, saved)
+    if source.suffix.lower() == ".png":
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+        continue
     content = source.read_text()
     if source.suffix == ".plist":
         content = content.replace("__HOME__", str(HOME))

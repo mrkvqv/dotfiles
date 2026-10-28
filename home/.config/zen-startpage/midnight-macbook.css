@@ -1,0 +1,142 @@
+/* Midnight MacBook — shared with Ghostty, Zed and T3 Code.
+   Cosmetic layer only; calendar, Essentials and Home routing stay in startpage.html. */
+:root {
+  color-scheme: dark;
+  --home-background: #19121d;
+  --home-text: #e8dfea;
+  --home-muted: #b3a3ba;
+  --home-faint: #88758f;
+  --home-accent: #c7a4d5;
+  --home-line: #c7a4d526;
+  --home-surface: #241b2bbd;
+  --home-hover: #33273bd9;
+  --home-popup: #2b2032;
+  --home-selected: #49364f;
+}
+
+html, body { background: var(--home-background); color: var(--home-text); }
+body { isolation: isolate; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(#19121d44, #19121d66),
+              url("./midnight-woven.png") center / cover no-repeat;
+}
+.scene {
+  --ink: var(--home-text);
+  --dim: var(--home-muted);
+  --line: var(--home-line);
+  --surface: var(--home-surface);
+  --selected: var(--home-selected);
+  --selected-ink: #f5edf7;
+  --today: var(--home-accent);
+  background: transparent;
+}
+::selection { background: var(--home-selected); color: #f5edf7; }
+button:focus-visible, a:focus-visible,
+.calendar-list-title:focus-visible {
+  outline-color: var(--home-accent);
+}
+.identity { color: var(--home-accent); letter-spacing: .12em; }
+.clock { color: #f5edf7; text-shadow: 0 2px 24px #19121d24; }
+.date { color: #c4b5cd; }
+
+.bookmark {
+  border-color: var(--home-line);
+  background: var(--home-surface);
+  backdrop-filter: blur(20px) saturate(115%);
+  -webkit-backdrop-filter: blur(20px) saturate(115%);
+  box-shadow: inset 0 1px #f5edf708, 0 8px 24px #100c1414;
+}
+.bookmark:is(:hover, :focus-visible) {
+  background: var(--home-hover);
+  border-color: #c7a4d55c;
+  box-shadow: inset 0 1px #f5edf70d, 0 12px 28px #100c142b;
+  transform: translateY(-3px);
+}
+.app-icon { filter: saturate(.4) brightness(1.05); }
+.app-icon.github, .app-icon.chatgpt {
+  filter: brightness(0) invert(.89) sepia(.12) saturate(1.2) hue-rotate(225deg);
+}
+.bookmark:is(:hover, :focus-visible) .app-icon:not(.github):not(.chatgpt) {
+  filter: saturate(.7) brightness(1.08);
+}
+.app-icon { transition-property: transform, filter; }
+.pin-monogram { background: var(--home-selected); color: #ddc0e8; }
+.pin-symbol { color: var(--home-accent); }
+.calendar-icon { background: #634770; color: #f5edf7; }
+.grid .link-arrow { color: #b69ac3; }
+.bookmark:is(:hover, :focus-visible) .link-arrow { color: #ddc0e8; }
+
+.month-label { color: #f5edf7; }
+.nav-button:hover, .day:hover, .reset:hover:enabled {
+  background: #c7a4d51a;
+  color: #f5edf7;
+}
+.day { color: #e0d4e6; }
+.day.weekend { color: #b3a3ba; }
+.day.outside { color: var(--home-faint); }
+.day[aria-current="date"] { border-color: #c7a4d580; }
+.day[aria-pressed="true"] {
+  background: var(--home-selected);
+  border-color: #c7a4d570;
+  color: #f5edf7;
+  box-shadow: inset 0 1px #f5edf70a;
+}
+.day[aria-pressed="true"] .event-day-dot { background: #ddc0e8 !important; }
+.selected-date { color: #d2b9df; }
+.reset:disabled, .refresh-events:disabled { color: var(--home-faint); }
+
+.refresh-events, .calendar-list-title {
+  background: #241b2b80;
+  border-color: var(--home-line);
+  color: #d6c5df;
+}
+.refresh-events:hover:enabled, .calendar-list-title:hover {
+  background: var(--home-hover);
+  border-color: #c7a4d550;
+  color: #f5edf7;
+}
+.calendar-list-items {
+  background: var(--home-popup);
+  border-color: #c7a4d53b;
+  box-shadow: 0 12px 36px #100c1466;
+}
+.calendar-list-item { color: var(--home-text); }
+.event-list, .event-body-scroll, .calendar-list-items {
+  scrollbar-color: #675071 transparent;
+}
+.event-details {
+  --event-border: var(--home-line);
+  background: var(--home-surface);
+}
+.event-summary { background: transparent; }
+.event-details:hover, .event-details[open] {
+  --event-border: #c7a4d547;
+  background: #241b2bf2;
+}
+.event-summary:hover, .event-details[open] > .event-summary {
+  background: #c7a4d50a;
+}
+.event-summary:focus-visible { outline-color: var(--home-accent); }
+.event-time { color: #c4b5cd; }
+.event-field-value { color: var(--home-text); }
+.event-notes { color: #c4b5cd; }
+.event-url { color: #b4bce0; text-underline-offset: 3px; }
+.event-url:hover { color: #ddc0e8; }
+.event-body-viewport::before { background: linear-gradient(#241b2bf2, #241b2b00); }
+.event-body-viewport::after { background: linear-gradient(#241b2b00, #241b2bf2); }
+.pin-action-notice {
+  background: var(--home-popup);
+  border-color: #c7a4d547;
+  color: var(--home-text);
+  box-shadow: 0 12px 36px #100c1466;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .bookmark { background: #241b2b; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .refresh-events, .calendar-list-title, .event-details { background: #241b2b; }
+}

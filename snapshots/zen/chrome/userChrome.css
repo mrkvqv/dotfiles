@@ -80,3 +80,9 @@ panel .panel-footer {
   background: #121212 !important;
   backdrop-filter: none !important;
 }
+
+/* The personal home view is reached with Home; keep its tab out of the sidebar. */
+#tabbrowser-tabs tab.tabbrowser-tab[mrkvqv-home],
+#tabbrowser-tabs tab.tabbrowser-tab[label="mrkvqv · Home"] {
+  display: none !important;
+}

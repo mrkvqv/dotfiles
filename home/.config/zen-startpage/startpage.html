@@ -1,90 +1,953 @@
-<!DOCTYPE html>
-<!-- Zen startpage. To change tiles edit the <a class="tile"> blocks below.
-     Source of truth: ~/dotfiles/home/.config/zen-startpage/startpage.html -->
-<html lang="ru">
+<!doctype html>
+<!-- Zen Startpage: local-first home with a JetBrains Mono clock.
+     Project: ~/projects/zen-startpage; dotfiles keeps an installed snapshot. -->
+<!-- Embedded clock font license:
+Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+
+This license is copied below, and is also available with a FAQ at: https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+-->
+<html lang="ru" class="startpage-loading">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home</title>
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="no-referrer">
+<title>mrkvqv · Home</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; }
-  body {
-    font-family: -apple-system, "SF Pro Display", Inter, sans-serif;
-    background: #000;
-    color: #f2f4f8;
-    display: flex; align-items: center; justify-content: center;
-    min-height: 100vh;
-    overflow: hidden;
-  }
-  main { position: relative; text-align: center; width: min(560px, 90vw); }
-  .clock { font-size: 84px; font-weight: 700; letter-spacing: -3px;
-    font-variant-numeric: tabular-nums; line-height: 1; }
-  .date { margin-top: 10px; font-size: 14px; color: #8b93a3; }
-  form { margin-top: 28px; }
-  .search {
-    width: 100%; padding: 13px 22px; font-size: 14px; color: #eee;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.11); border-radius: 999px; outline: none;
-    transition: border-color .15s, background .15s;
-  }
-  .search::placeholder { color: rgba(255,255,255,.38); }
-  .search:focus { border-color: rgba(255,255,255,.28); background: rgba(255,255,255,.08); }
-  .grid { margin-top: 30px; display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
-  .tile { text-decoration: none; display: flex; flex-direction: column;
-    align-items: center; gap: 8px; }
-  .icon {
-    width: 56px; height: 56px; border-radius: 16px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; font-weight: 700; color: #fff;
-    transition: transform .15s;
-  }
-  .tile:hover .icon { transform: translateY(-3px); }
-  .label { font-size: 11px; color: #8b93a3; }
-  .hint { margin-top: 34px; font-size: 11px; color: #4a505c; }
+@font-face { font-family: "JetBrains Mono"; src: url(data:font/woff;base64,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) format("woff"); font-weight: 100 800; font-style: normal; font-display: block; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: transparent; color: var(--foreground, #e4e4e7); font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif); }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 2px solid #b6b5a8; outline-offset: 4px; }
+
+.scene { --ink: #e8e8e2; --dim: #84847d; --line: #262624; --surface: #10100f; --selected: #deddd3; --selected-ink: #141413; --today: #8a8a7e; color: var(--ink); padding: 36px 28px; background: #000; border: 1px solid #232321; border-radius: var(--radius, 13px); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+.identity { margin: 0 0 19px; color: var(--dim); font-size: 10px; font-weight: 450; letter-spacing: .065em; }
+.clock { display: block; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1; }
+.date { display: block; margin-top: 13px; color: var(--dim); font-size: 11px; letter-spacing: .015em; }
+.bookmarks { display: grid; gap: 10px; }
+.bookmark { display: flex; align-items: center; min-width: 0; gap: 15px; padding: 17px; color: var(--ink); border: 1px solid var(--line); border-radius: 15px; background: var(--surface); text-decoration: none; transition: transform 240ms cubic-bezier(.2,.75,.25,1), background-color 180ms ease, border-color 180ms ease; }
+.bookmark:is(:hover,:focus-visible) { transform: translateY(-4px); background: #1c1c19; border-color: #4b4b42; }
+.app-icon { display: block; flex: 0 0 auto; width: 44px; height: 44px; object-fit: contain; transition: transform 240ms cubic-bezier(.2,.75,.25,1); }
+.app-icon.github, .app-icon.chatgpt { filter: brightness(0) invert(1); }
+.bookmark:is(:hover,:focus-visible) .app-icon { transform: scale(1.08); }
+.app-name { font-size: 12px; font-weight: 450; white-space: nowrap; }
+.link-arrow { width: 12px; height: 12px; margin-left: auto; color: #64645d; flex-shrink: 0; transition: transform 240ms ease, color 180ms ease; }
+.bookmark:is(:hover,:focus-visible) .link-arrow { transform: translate(2px,-2px); color: #dddcd0; }
+.calendar-icon { display: grid; place-items: center; border-radius: 9px; background: #3675f5; color: white; font-size: 26px; font-weight: 750; letter-spacing: -.07em; line-height: 1; }
+.calendar { min-width: 0; }
+.month-heading { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 12px; }
+.month-label { margin: 0; color: var(--ink); font-size: 12px; font-weight: 450; white-space: nowrap; }
+.month-controls { display: flex; gap: 2px; }
+.nav-button { display: inline-grid; place-items: center; width: 25px; height: 26px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: var(--dim); transition: color 150ms ease, background-color 150ms ease; }
+.nav-button svg { width: 13px; height: 13px; }
+.nav-button:hover { background: #24251f; color: var(--ink); }
+.month-grid { width: 100%; table-layout: fixed; border-spacing: 0 3px; text-align: center; font-variant-numeric: tabular-nums; }
+.month-grid th { padding: 0; height: 24px; color: var(--dim); font-size: 10px; font-weight: 400; }
+.month-grid td { padding: 0; height: 29px; }
+.day { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: #b6b6aa; font-size: 11px; transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease; }
+.day.weekend { color: #848479; }
+.day.outside { color: #48483f; }
+.day:hover { background: #25251f; color: var(--ink); }
+.day[aria-current="date"] { border-color: var(--today); }
+.day[aria-pressed="true"] { background: var(--selected); border-color: var(--selected); color: var(--selected-ink); font-weight: 650; }
+.selection { display: flex; align-items: center; justify-content: space-between; gap: 6px; border-top: 1px solid var(--line); padding-top: 10px; margin-top: 12px; }
+.selected-date { color: #c7c7ba; font-size: 11px; text-align: center; font-variant-numeric: tabular-nums; }
+.reset-row { display: flex; justify-content: center; margin-top: 7px; }
+.reset { border: 0; padding: 5px 9px; border-radius: 6px; color: var(--dim); background: transparent; font-size: 10px; }
+.reset:hover:enabled { background: #24251f; color: var(--ink); }
+.reset:disabled { color: #56564c; cursor: default; }
+.grid .identity { text-align: left; }
+.grid .clock { font-family: "JetBrains Mono", monospace; font-size: 76px; font-weight: 450; letter-spacing: -.075em; }
+.grid .hero { margin-bottom: 29px; }
+.grid .layout { display: grid; grid-template-columns: minmax(0,1fr) 228px; align-items: start; gap: 30px; }
+.grid .bookmarks { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.grid .bookmark { min-height: 81px; padding: 16px 14px; gap: 12px; }
+.grid .app-icon { width: 44px; height: 44px; }
+.grid .calendar-icon { font-size: 24px; }
+.grid .app-name { font-size: 11px; }
+.grid .link-arrow { display: none; }
+.grid .calendar { padding-left: 21px; border-left: 1px solid var(--line); }
+
+@media (min-width:900px) { .scene-inner { max-width: 820px; margin-inline: auto; }  .grid .app-icon { width: 46px; height: 46px; } .grid .app-name { font-size: 12px; } .grid .bookmark { min-height: 86px; } }
+@media (max-width:680px) { .scene { padding: 30px 22px; } .grid .layout { grid-template-columns: minmax(0,1fr) 216px; gap: 20px; } .grid .bookmarks { grid-template-columns: minmax(0,1fr); } .grid .bookmark { min-height: 66px; }      }
+@media (max-width:520px) {
+
+ .scene { padding: 30px 18px; }.identity { margin-bottom: 19px; }
+ .grid .clock { font-size: 66px; }.grid .layout { grid-template-columns: minmax(0,1fr); gap: 26px; }.grid .bookmarks { grid-template-columns: repeat(2,minmax(0,1fr)); }.grid .bookmark { flex-direction: column; min-height: 95px; padding: 13px 8px; gap: 11px; }.grid .app-icon { width: 42px; height: 42px; }.grid .calendar { width: 280px; max-width: 100%; justify-self: center; padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+
+}
+@media(prefers-reduced-motion:reduce) { .scene *, .scene *::before, .scene *::after { transition: none !important; }.bookmark:is(:hover,:focus-visible),.bookmark:is(:hover,:focus-visible) .app-icon,.bookmark:is(:hover,:focus-visible) .link-arrow { transform: none; } }
+
+html, body { background: #000; color: #e8e8e2; }
+html.startpage-loading .scene { visibility: hidden; }
+.scene { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; border: 0; border-radius: 0; padding-top: 12px; padding-bottom: 60px; }
+.scene-inner { width: min(100%, 900px); max-width: 900px; min-width: 0; }
+.scene { --dim: #99998f; }
+.identity { font-size: 12px; }
+.date { font-size: 14px; }
+.grid .layout { grid-template-columns: minmax(0, 1fr) 260px; gap: 32px; align-items: stretch; }
+.grid .bookmarks { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: minmax(0, 1fr); }
+.grid .bookmark { position: relative; min-height: 100px; padding: 18px 36px 18px 18px; gap: 14px; }
+.grid .app-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; font-size: 14px; }
+.pin-symbol, .pin-monogram { display: grid; place-items: center; font-size: 30px; }
+.pin-monogram { border-radius: 10px; background: #242420; color: #deddd3; font-size: 23px; }
+.bookmarks-empty { grid-column: 1 / -1; align-self: center; color: var(--dim); font-size: 14px; }
+.pin-action-notice { position: fixed; z-index: 20; bottom: 22px; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 36px); margin: 0; padding: 11px 15px; border: 1px solid #393930; border-radius: 10px; background: #151511; color: #deddd3; font: 13px/1.5 -apple-system, sans-serif; }
+.grid .link-arrow { display: block; position: absolute; top: 14px; right: 14px; width: 16px; height: 16px; margin: 0; color: #a6a696; }
+.grid .calendar { display: flex; flex-direction: column; padding-left: 24px; }
+.month-label { font-size: 15px; }
+.nav-button { width: 28px; height: 28px; }
+.nav-button svg { width: 15px; height: 15px; }
+.month-grid { margin-bottom: 12px; }
+.month-grid th { height: 27px; font-size: 12px; }
+.month-grid td { height: 32px; }
+.day { width: 30px; height: 30px; font-size: 14px; color: #c2c2b6; }
+.day.weekend { color: #99998c; }
+.day.outside { color: #67675b; }
+.selection { margin-top: auto; padding-top: 12px; flex-shrink: 0; }
+.selected-date { font-size: 13px; }
+.reset-row { flex-shrink: 0; }
+.reset { font-size: 12px; }
+.reset:disabled { color: #7c7c70; }
+@media (max-width: 800px) {
+  .scene { padding-top: 6px; padding-bottom: 54px; }
+  .grid .layout { grid-template-columns: minmax(0, 1fr) 244px; gap: 24px; }
+  .grid .calendar { padding-left: 20px; }
+  .grid .bookmark { padding: 16px 32px 16px 16px; gap: 12px; }
+}
+@media (max-width: 700px) {
+  .grid .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .grid .calendar { width: min(100%, 340px); justify-self: center; padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+}
+@media (max-width: 520px) {
+  .scene { padding-top: 18px; padding-bottom: 42px; }
+  .grid .bookmark { min-height: 114px; padding: 18px 25px; gap: 12px; }
+  .grid .link-arrow { top: 12px; right: 12px; }
+}
+
+.agenda { height: 252px; display: flex; flex-direction: column; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+.agenda-header { display: flex; flex: 0 0 32px; min-height: 32px; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 8px; }
+.agenda-title-row { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.agenda-heading { margin: 0; color: var(--ink); font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.event-count { min-width: 2ch; flex-shrink: 0; color: var(--dim); font-size: 12px; font-variant-numeric: tabular-nums; }
+.sync-controls { position: relative; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.sync-status { color: var(--dim); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.refresh-events { flex-shrink: 0; padding: 6px 9px; border: 1px solid var(--line); border-radius: 7px; color: #c1c1b5; background: transparent; font-size: 12px; }
+.refresh-events:hover:enabled { background: #1b1b18; color: var(--ink); }
+.refresh-events:disabled { color: #757568; cursor: default; }
+.event-list { flex: 1 1 0; min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: #45453d transparent; }
+.agenda-empty { margin: 0; padding: 13px 0; color: var(--dim); font-size: 13px; line-height: 1.6; }
+.event-details { --event-border: #262624; position: relative; isolation: isolate; max-height: 100%; margin-bottom: 8px; padding: 1px; border: 0; border-radius: 11px; background: #000; overflow: hidden; transition: background-color 220ms ease; }
+/* Paint the frame above the scrolling/filter layers, including during disclosure. */
+.event-details::after { content: ""; position: absolute; z-index: 3; inset: 0; border: 1px solid var(--event-border); border-radius: inherit; pointer-events: none; transition: border-color 220ms ease; }
+.event-details:hover, .event-details[open] { --event-border: #3a3a33; background: #11110f; }
+.event-details:last-child { margin-bottom: 0; }
+.event-details[open] { display: grid; grid-template-columns: minmax(180px, 25%) minmax(0, 1fr); height: 100%; }
+.event-details::details-content { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; }
+.event-details[open] > .event-summary { grid-column: 1; grid-row: 1; align-self: start; align-items: flex-start; border-radius: 10px 0 0 10px; }
+.event-body-viewport { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; min-height: 0; max-height: 100%; }
+.event-body-scroll { min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-color: #45453d transparent; }
+.event-body-viewport::before, .event-body-viewport::after { content: ""; position: absolute; z-index: 1; left: 0; right: 10px; height: 22px; pointer-events: none; opacity: 0; backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); transition: opacity 240ms ease; }
+.event-body-viewport::before { top: 0; background: linear-gradient(#11110ff2, #11110f00); mask-image: linear-gradient(#000, transparent); }
+.event-body-viewport::after { bottom: 0; background: linear-gradient(#11110f00, #11110ff2); mask-image: linear-gradient(transparent, #000); }
+.event-body-viewport[data-scroll-top]::before, .event-body-viewport[data-scroll-bottom]::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .event-body-viewport::before, .event-body-viewport::after { transition: none; } }
+.event-summary { flex: 0 0 auto; display: flex; align-items: center; gap: 12px; min-width: 0; padding: 20px; border: 0; border-radius: 10px; background: #000; cursor: pointer; list-style: none; -webkit-user-select: none; user-select: none; transition: background-color 220ms ease, border-color 220ms ease; }
+.event-summary::-webkit-details-marker { display: none; }
+.event-summary:hover, .event-details[open] > .event-summary { background: #11110f; }
+.event-summary:focus-visible { outline: 2px solid #aaa99b; outline-offset: -2px; }
+.event-color { display: inline-block; width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; }
+.event-timing { display: flex; align-items: center; gap: 9px; }
+.event-time { color: #b6b6a9; font-size: 12px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.event-summary-text { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.event-title { color: var(--ink); font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.event-details[open] .event-summary-text { gap: 12px; }
+.event-details[open] .event-title { font-size: 17px; font-weight: 500; line-height: 1.45; letter-spacing: -.015em; }
+.event-calendar-name { display: none; }
+.disclosure-chevron { display: block; width: 16px; height: 16px; flex: 0 0 16px; color: var(--dim); pointer-events: none; -webkit-user-select: none; user-select: none; transition: transform 320ms cubic-bezier(.22,1,.36,1), color 250ms ease; }
+.event-expand { margin-left: auto; transition-duration: 360ms; }
+.event-details[open] .event-expand { position: absolute; top: 16px; right: 14px; z-index: 2; }
+.event-summary:hover .disclosure-chevron { color: var(--ink); }
+.event-details[open]:not([data-closing]) .event-expand { transform: rotate(180deg); }
+.event-body { padding: 20px 42px 20px 16px; }
+.event-fields { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 17px 28px; margin: 0; font-size: 12px; line-height: 1.5; }
+.event-field { min-width: 0; }
+.event-field-wide { grid-column: 1 / -1; }
+.event-field-name { margin-bottom: 4px; color: var(--dim); font-size: 10px; line-height: 1.4; }
+.event-field-value { color: #d1d1c4; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.event-notes { margin: 15px 0 0; color: #c3c3b5; font-size: 13px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.event-url { display: inline-block; margin-top: 14px; color: #d4d3c3; font-size: 12px; overflow-wrap: anywhere; }
+.calendar-list { flex: 0 0 auto; margin: 0; color: var(--dim); font-size: 12px; }
+.calendar-list-title { display: flex; align-items: center; gap: 7px; min-height: 29px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; color: #c1c1b5; background: transparent; white-space: nowrap; cursor: pointer; list-style: none; -webkit-user-select: none; user-select: none; transition: background-color 300ms cubic-bezier(.22,1,.36,1), border-color 300ms ease; }
+.calendar-list-title::-webkit-details-marker { display: none; }
+.calendar-list-title:hover { background: #1b1b18; border-color: #45453d; }
+.calendar-list-title:focus-visible { outline: 2px solid #aaa99b; outline-offset: 3px; }
+.calendar-list[open]:not([data-closing]) .disclosure-chevron { transform: rotate(180deg); }
+.calendar-list-items { position: absolute; z-index: 10; top: calc(100% + 8px); right: 0; display: grid; gap: 12px; width: min(300px, calc(100vw - 36px)); max-height: 200px; overflow-y: auto; margin: 0; padding: 15px; border: 1px solid #30302b; border-radius: 11px; background: #111110; box-shadow: 0 10px 30px #0009; list-style: none; scrollbar-width: thin; scrollbar-color: #45453d transparent; }
+.calendar-list-item { display: flex; align-items: center; gap: 9px; min-width: 0; color: #c1c1b5; line-height: 1.5; overflow-wrap: anywhere; }
+.day { position: relative; height: 34px; }
+.month-grid td { height: 36px; }
+.event-dots { position: absolute; display: flex; gap: 2px; bottom: 2px; left: 50%; transform: translateX(-50%); }
+.event-day-dot { width: 3px; height: 3px; border-radius: 50%; }
+.day[aria-pressed="true"] .event-day-dot { background: #46463e !important; }
+.day, .nav-button, .reset, .refresh-events { transition: color 300ms cubic-bezier(.22,1,.36,1), background-color 300ms cubic-bezier(.22,1,.36,1), border-color 300ms cubic-bezier(.22,1,.36,1); }
+.bookmark, .app-icon, .link-arrow { transition-duration: 340ms; transition-timing-function: cubic-bezier(.22,1,.36,1); }
+@media (max-width:700px) {
+ .agenda { height: 292px; }
+ .agenda-header { flex-basis: 64px; min-height: 64px; align-items: flex-start; flex-direction: column; justify-content: center; gap: 10px; }
+ .agenda-title-row { max-width: 100%; }
+ .sync-controls { width: 100%; justify-content: space-between; }
+ .event-time { font-size: 11px; }
+ .event-details[open] { display: flex; flex-direction: column; }
+ .event-details::details-content { border-left: 0; }
+ .event-details[open] > .event-summary { padding-right: 40px; border-radius: 10px 10px 0 0; }
+ .event-summary { gap: 9px; }
+ .event-body { padding: 4px 20px 20px; }
+ .event-fields { gap: 16px 20px; }
+}
+@media (max-width:420px) { .event-fields { grid-template-columns: minmax(0,1fr); } }
+
 </style>
 </head>
 <body>
-<main>
-  <div class="clock" id="clock">--:--</div>
-  <div class="date" id="date"></div>
-  <form id="search" action="https://duckduckgo.com/" method="get" autocomplete="off">
-    <input class="search" id="q" name="q" type="text"
-           placeholder="Поиск DuckDuckGo или адрес…" autofocus>
-  </form>
-  <div class="grid">
-    <a class="tile" href="https://github.com"><span class="icon" style="background:#24292f">G</span><span class="label">GitHub</span></a>
-    <a class="tile" href="https://youtube.com"><span class="icon" style="background:#c81e1e">Y</span><span class="label">YouTube</span></a>
-    <a class="tile" href="https://mail.google.com"><span class="icon" style="background:#1a73e8">M</span><span class="label">Gmail</span></a>
-    <a class="tile" href="https://chatgpt.com"><span class="icon" style="background:#10a37f">C</span><span class="label">ChatGPT</span></a>
-    <a class="tile" href="https://claude.ai"><span class="icon" style="background:#d97757">C</span><span class="label">Claude</span></a>
-    <a class="tile" href="https://figma.com"><span class="icon" style="background:#9747ff">F</span><span class="label">Figma</span></a>
-    <a class="tile" href="https://open.spotify.com"><span class="icon" style="background:#1db954">S</span><span class="label">Spotify</span></a>
-    <a class="tile" href="https://gitlab.com"><span class="icon" style="background:#fc6d26">L</span><span class="label">GitLab</span></a>
-  </div>
-  <div class="hint">нажми / чтобы искать</div>
-</main>
+<main class="scene grid" data-design="grid" aria-label="Стартовая страница"><div class="scene-inner"><div class="identity">mrkvqv</div><div class="hero"><time class="clock" data-clock>--:--</time><time class="date" data-date></time></div><div class="layout"><template data-pin-presets><a class="bookmark" href="https://www.youtube.com/" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><img class="app-icon youtube" src="data:image/png;base64,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" alt="" width="44" height="44" draggable="false"><span class="app-name">YouTube</span><svg class="link-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="bookmark" href="https://mail.proton.me/" aria-label="Proton Mail" target="_blank" rel="noopener noreferrer"><img class="app-icon proton" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICAgIDxwYXRoCiAgICAgICAgZmlsbD0idXJsKCNhKSIKICAgICAgICBkPSJNMCAxMlYzLjUxM2w1LjA1NyA0LjE3OGExLjUgMS41IDAgMCAwIDEuODk2LjAxM0w4LjM3NSA2LjU2bC41OTQtLjQ3di0uMDA1TDEzIDIuODZWMTRIMmEyIDIgMCAwIDEtMi0yWiIKICAgIC8+CiAgICA8cGF0aAogICAgICAgIGZpbGw9InVybCgjYikiCiAgICAgICAgZD0iTTAgMy41MTMgNS4wNTcgNy42OWExLjUgMS41IDAgMCAwIDEuODk2LjAxM0w4LjM3NSA2LjU2bC41OTQtLjQ3di0uMDA2bC0uMzQ0LjI3NmExIDEgMCAwIDEtMS4yNSAwTDEuMjIgMS40MzRBLjc1Ljc1IDAgMCAwIDAgMi4wMnYxLjQ5M1oiCiAgICAvPgogICAgPHBhdGggZmlsbD0idXJsKCNjKSIgZD0iTTE2IDEyVjIuMDJhLjc1Ljc1IDAgMCAwLTEuMjE5LS41ODZMMTMgMi44NlYxNGgxYTIgMiAwIDAgMCAyLTJaIiAvPgogICAgPGRlZnM+CiAgICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJiIiB4MT0iNS4zIiB4Mj0iMi4wNDgiIHkxPSI4LjA5NyIgeTI9Ii01LjcxMSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjRTNEOUZGIiAvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MzQxRkYiIC8+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImMiIHgxPSIyMC41MjgiIHgyPSI3LjI1OCIgeTE9IjIyLjI1NCIgeTI9Ii0yLjkyOSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9Ii4yNzEiIHN0b3AtY29sb3I9IiNFM0Q5RkYiIC8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzczNDFGRiIgLz4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgIDxyYWRpYWxHcmFkaWVudAogICAgICAgICAgICBpZD0iYSIKICAgICAgICAgICAgY3g9IjAiCiAgICAgICAgICAgIGN5PSIwIgogICAgICAgICAgICByPSIxIgogICAgICAgICAgICBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDE1LjE2MDMgMCAwIDE2LjE5ODIgMTIuOTQzIDQuMjI0KSIKICAgICAgICAgICAgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiCiAgICAgICAgPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9Ii41NTYiIHN0b3AtY29sb3I9IiM2RDRBRkYiIC8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iLjk5NCIgc3RvcC1jb2xvcj0iI0FBOEVGRiIgLz4KICAgICAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPC9kZWZzPgo8L3N2Zz4=" alt="" width="44" height="44" draggable="false"><span class="app-name">Proton Mail</span><svg class="link-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="bookmark" href="https://mail.google.com/" aria-label="Gmail" target="_blank" rel="noopener noreferrer"><img class="app-icon gmail" src="data:image/png;base64,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" alt="" width="44" height="44" draggable="false"><span class="app-name">Gmail</span><svg class="link-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="bookmark" href="https://github.com/" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><img class="app-icon github" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNiAwQzcuMTYgMCAwIDcuMTYgMCAxNkMwIDIzLjA4IDQuNTggMjkuMDYgMTAuOTQgMzEuMThDMTEuNzQgMzEuMzIgMTIuMDQgMzAuODQgMTIuMDQgMzAuNDJDMTIuMDQgMzAuMDQgMTIuMDIgMjguNzggMTIuMDIgMjcuNDRDOCAyOC4xOCA2Ljk2IDI2LjQ2IDYuNjQgMjUuNTZDNi40NiAyNS4xIDUuNjggMjMuNjggNSAyMy4zQzQuNDQgMjMgMy42NCAyMi4yNiA0Ljk4IDIyLjI0QzYuMjQgMjIuMjIgNy4xNCAyMy40IDcuNDQgMjMuODhDOC44OCAyNi4zIDExLjE4IDI1LjYyIDEyLjEgMjUuMkMxMi4yNCAyNC4xNiAxMi42NiAyMy40NiAxMy4xMiAyMy4wNkM5LjU2IDIyLjY2IDUuODQgMjEuMjggNS44NCAxNS4xNkM1Ljg0IDEzLjQyIDYuNDYgMTEuOTggNy40OCAxMC44NkM3LjMyIDEwLjQ2IDYuNzYgOC44MiA3LjY0IDYuNjJDNy42NCA2LjYyIDguOTggNi4yIDEyLjA0IDguMjZDMTMuMzIgNy45IDE0LjY4IDcuNzIgMTYuMDQgNy43MkMxNy40IDcuNzIgMTguNzYgNy45IDIwLjA0IDguMjZDMjMuMSA2LjE4IDI0LjQ0IDYuNjIgMjQuNDQgNi42MkMyNS4zMiA4LjgyIDI0Ljc2IDEwLjQ2IDI0LjYgMTAuODZDMjUuNjIgMTEuOTggMjYuMjQgMTMuNCAyNi4yNCAxNS4xNkMyNi4yNCAyMS4zIDIyLjUgMjIuNjYgMTguOTQgMjMuMDZDMTkuNTIgMjMuNTYgMjAuMDIgMjQuNTIgMjAuMDIgMjYuMDJDMjAuMDIgMjguMTYgMjAgMjkuODggMjAgMzAuNDJDMjAgMzAuODQgMjAuMyAzMS4zNCAyMS4xIDMxLjE4QzI3LjQyIDI5LjA2IDMyIDIzLjA2IDMyIDE2QzMyIDcuMTYgMjQuODQgMCAxNiAwVjBaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=" alt="" width="44" height="44" draggable="false"><span class="app-name">GitHub</span><svg class="link-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="bookmark" href="https://chatgpt.com/" aria-label="ChatGPT" target="_blank" rel="noopener noreferrer"><img class="app-icon chatgpt" src="data:image/svg+xml;base64,PHN2ZwogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICB3aWR0aD0iMTgwIgogIGhlaWdodD0iMTgwIgogIHZpZXdCb3g9IjAgMCAxODAgMTgwIgogIGZpbGw9Im5vbmUiCj4KICA8c3R5bGU+CiAgICA6cm9vdCB7CiAgICAgIGZpbGw6ICMwMDA7CiAgICB9CiAgICBAbWVkaWEgKHByZWZlcnMtY29sb3Itc2NoZW1lOiBkYXJrKSB7CiAgICAgIDpyb290IHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CiAgICB9CiAgPC9zdHlsZT4KICA8cGF0aAogICAgZD0iTTEwMS4yMjggMTY0LjI0N0M5Ni4yNzc2IDE2NC4yNDcgOTEuNTc1MSAxNjMuMzA3IDg3LjEyMDEgMTYxLjQyNkM4Mi42NjUxIDE1OS41NDUgNzguNzA1MSAxNTYuOTIxIDc1LjI0MDEgMTUzLjU1NUM3MS40NzgxIDE1NC44NDIgNjcuNTY3NiAxNTUuNDg2IDYzLjUwODYgMTU1LjQ4NkM1Ni44NzU2IDE1NS40ODYgNTAuNzM3NiAxNTMuODUyIDQ1LjA5NDYgMTUwLjU4NUMzOS40NTE2IDE0Ny4zMTggMzQuODk3NiAxNDIuODYzIDMxLjQzMjYgMTM3LjIyQzI4LjA2NjYgMTMxLjU3NyAyNi4zODM2IDEyNS4yOTEgMjYuMzgzNiAxMTguMzYxQzI2LjM4MzYgMTE1LjQ5IDI2Ljc3OTYgMTEyLjM3MSAyNy41NzE2IDEwOS4wMDVDMjMuNjExNiAxMDUuMzQyIDIwLjU0MjYgMTAxLjEzNSAxOC4zNjQ2IDk2LjM4MjhDMTYuMTg2NiA5MS41MzE4IDE1LjA5NzYgODYuNDgyOCAxNS4wOTc2IDgxLjIzNThDMTUuMDk3NiA3NS44ODk4IDE2LjIzNjEgNzAuNzQxOCAxOC41MTMxIDY1Ljc5MThDMjAuNzkwMSA2MC44NDE4IDIzLjk1ODEgNTYuNTg0OCAyOC4wMTcxIDUzLjAyMDhDMzIuMTc1MSA0OS4zNTc4IDM2Ljk3NjYgNDYuODMzMyA0Mi40MjE2IDQ1LjQ0NzNDNDMuNTEwNiAzOS44MDQzIDQ1Ljc4NzYgMzQuNzU1MyA0OS4yNTI2IDMwLjMwMDNDNTIuODE2NiAyNS43NDYzIDU3LjE3MjYgMjIuMTgyMyA2Mi4zMjA2IDE5LjYwODNDNjcuNDY4NiAxNy4wMzQzIDcyLjk2MzEgMTUuNzQ3MyA3OC44MDQxIDE1Ljc0NzNDODMuNzU0MSAxNS43NDczIDg4LjQ1NjYgMTYuNjg3OCA5Mi45MTE2IDE4LjU2ODhDOTcuMzY2NiAyMC40NDk4IDEwMS4zMjcgMjMuMDczMyAxMDQuNzkyIDI2LjQzOTNDMTA4LjU1NCAyNS4xNTIzIDExMi40NjQgMjQuNTA4OCAxMTYuNTIzIDI0LjUwODhDMTIzLjE1NiAyNC41MDg4IDEyOS4yOTQgMjYuMTQyMyAxMzQuOTM3IDI5LjQwOTNDMTQwLjU4IDMyLjY3NjMgMTQ1LjA4NSAzNy4xMzEzIDE0OC40NTEgNDIuNzc0M0MxNTEuOTE2IDQ4LjQxNzMgMTUzLjY0OCA1NC43MDM4IDE1My42NDggNjEuNjMzOEMxNTMuNjQ4IDY0LjUwNDggMTUzLjI1MiA2Ny42MjMzIDE1Mi40NiA3MC45ODkzQzE1Ni40MiA3NC42NTIzIDE1OS40ODkgNzguOTA5MyAxNjEuNjY3IDgzLjc2MDNDMTYzLjg0NSA4OC41MTIzIDE2NC45MzQgOTMuNTExOCAxNjQuOTM0IDk4Ljc1ODhDMTY0LjkzNCAxMDQuMTA1IDE2My43OTYgMTA5LjI1MyAxNjEuNTE5IDExNC4yMDNDMTU5LjI0MiAxMTkuMTUzIDE1Ni4wMjQgMTIzLjQ1OSAxNTEuODY2IDEyNy4xMjJDMTQ3LjgwNyAxMzAuNjg2IDE0My4wNTUgMTMzLjE2MSAxMzcuNjEgMTM0LjU0N0MxMzYuNTIxIDE0MC4xOSAxMzQuMTk1IDE0NS4yMzkgMTMwLjYzMSAxNDkuNjk0QzEyNy4xNjYgMTU0LjI0OCAxMjIuODU5IDE1Ny44MTIgMTE3LjcxMSAxNjAuMzg2QzExMi41NjMgMTYyLjk2IDEwNy4wNjkgMTY0LjI0NyAxMDEuMjI4IDE2NC4yNDdaTTY0LjU0ODEgMTQ1LjY4NUM2OS40OTgxIDE0NS42ODUgNzMuODA0NiAxNDQuNjQ1IDc3LjQ2NzYgMTQyLjU2NkwxMDUuMzg2IDEyNi41MjhDMTA2LjM3NiAxMjUuODM1IDEwNi44NzEgMTI0Ljg5NSAxMDYuODcxIDEyMy43MDdWMTEwLjkzNkw3MC45MzM2IDEzMS41NzdDNjguNzU1NiAxMzIuODY0IDY2LjU3NzYgMTMyLjg2NCA2NC4zOTk2IDEzMS41NzdMMzYuMzMzMSAxMTUuMzkxQzM2LjMzMzEgMTE1LjY4OCAzNi4yODM2IDExNi4wMzQgMzYuMTg0NiAxMTYuNDNDMzYuMTg0NiAxMTYuODI2IDM2LjE4NDYgMTE3LjQyIDM2LjE4NDYgMTE4LjIxMkMzNi4xODQ2IDEyMy4yNjEgMzcuMzcyNiAxMjcuOTE0IDM5Ljc0ODYgMTMyLjE3MUM0Mi4yMjM2IDEzNi4zMjkgNDUuNjM5MSAxMzkuNTk2IDQ5Ljk5NTEgMTQxLjk3MkM1NC4zNTExIDE0NC40NDcgNTkuMjAyMSAxNDUuNjg1IDY0LjU0ODEgMTQ1LjY4NVpNNjYuMDMzMSAxMjEuNDc5QzY2LjYyNzEgMTIxLjc3NiA2Ny4xNzE2IDEyMS45MjUgNjcuNjY2NiAxMjEuOTI1QzY4LjE2MTYgMTIxLjkyNSA2OC42NTY2IDEyMS43NzYgNjkuMTUxNiAxMjEuNDc5TDgwLjI4OTEgMTE1LjA5NEw0NC41MDA2IDk0LjMwMzhDNDIuMzIyNiA5My4wMTY4IDQxLjIzMzYgOTEuMDg2MyA0MS4yMzM2IDg4LjUxMjNWNTYuMjg3OEMzNi4yODM2IDU4LjQ2NTggMzIuMzIzNiA2MS44MzE4IDI5LjM1MzYgNjYuMzg1OEMyNi4zODM2IDcwLjg0MDggMjQuODk4NiA3NS43OTA4IDI0Ljg5ODYgODEuMjM1OEMyNC44OTg2IDg2LjA4NjggMjYuMTM2MSA5MC43Mzk4IDI4LjYxMTEgOTUuMTk0OEMzMS4wODYxIDk5LjY0OTggMzQuMzAzNiAxMDMuMDE2IDM4LjI2MzYgMTA1LjI5M0w2Ni4wMzMxIDEyMS40NzlaTTEwMS4yMjggMTU0LjQ0NkMxMDYuNDc1IDE1NC40NDYgMTExLjIyNyAxNTMuMjU4IDExNS40ODQgMTUwLjg4MkMxMTkuNzQxIDE0OC41MDYgMTIzLjEwNyAxNDUuMjM5IDEyNS41ODIgMTQxLjA4MUMxMjguMDU3IDEzNi45MjMgMTI5LjI5NCAxMzIuMjcgMTI5LjI5NCAxMjcuMTIyVjk1LjA0NjNDMTI5LjI5NCA5My44NTgzIDEyOC43OTkgOTIuOTY3MyAxMjcuODA5IDkyLjM3MzNMMTE2LjUyMyA4NS44MzkzVjEyNy4yNzFDMTE2LjUyMyAxMjkuODQ1IDExNS40MzQgMTMxLjc3NSAxMTMuMjU2IDEzMy4wNjJMODUuMTg5NiAxNDkuMjQ5QzkwLjA0MDYgMTUyLjcxNCA5NS4zODY2IDE1NC40NDYgMTAxLjIyOCAxNTQuNDQ2Wk0xMDYuODcxIDEwMC4wOTVWNzkuODk5M0w5MC4wOSA3MC4zOTUzTDczLjE2MTEgNzkuODk5M1YxMDAuMDk1TDkwLjA5IDEwOS41OTlMMTA2Ljg3MSAxMDAuMDk1Wk02My41MDg2IDUyLjcyMzhDNjMuNTA4NiA1MC4xNDk4IDY0LjU5NzYgNDguMjE5MyA2Ni43NzU2IDQ2LjkzMjNMOTQuODQyMSAzMC43NDU4Qzg5Ljk5MTEgMjcuMjgwOCA4NC42NDUxIDI1LjU0ODMgNzguODA0MSAyNS41NDgzQzczLjU1NzEgMjUuNTQ4MyA2OC44MDUxIDI2LjczNjMgNjQuNTQ4MSAyOS4xMTIzQzYwLjI5MTEgMzEuNDg4MyA1Ni45MjUxIDM0Ljc1NTMgNTQuNDUwMSAzOC45MTMzQzUyLjA3NDEgNDMuMDcxMyA1MC44ODYxIDQ3LjcyNDMgNTAuODg2MSA1Mi44NzIzVjg0Ljc5OThDNTAuODg2MSA4NS45ODc4IDUxLjM4MTEgODYuOTI4MyA1Mi4zNzExIDg3LjYyMTNMNjMuNTA4NiA5NC4xNTUzVjUyLjcyMzhaTTEzOC45NDcgMTIzLjcwN0MxNDMuODk3IDEyMS41MjkgMTQ3LjgwNyAxMTguMTYzIDE1MC42NzggMTEzLjYwOUMxNTMuNjQ4IDEwOS4wNTUgMTU1LjEzMyAxMDQuMTA1IDE1NS4xMzMgOTguNzU4OEMxNTUuMTMzIDkzLjkwNzggMTUzLjg5NiA4OS4yNTQ4IDE1MS40MjEgODQuNzk5OEMxNDguOTQ2IDgwLjM0NDggMTQ1LjcyOCA3Ni45Nzg4IDE0MS43NjggNzQuNzAxOEwxMTMuOTk5IDU4LjY2MzhDMTEzLjQwNSA1OC4yNjc4IDExMi44NiA1OC4xMTkzIDExMi4zNjUgNTguMjE4M0MxMTEuODcgNTguMjE4MyAxMTEuMzc1IDU4LjM2NjggMTEwLjg4IDU4LjY2MzhMOTkuNzQyNiA2NC45MDA4TDEzNS42OCA4NS44MzkzQzEzNi43NjkgODYuNDMzMyAxMzcuNTYxIDg3LjIyNTMgMTM4LjA1NiA4OC4yMTUzQzEzOC42NSA4OS4xMDYzIDEzOC45NDcgOTAuMTk1MyAxMzguOTQ3IDkxLjQ4MjNWMTIzLjcwN1pNMTA5LjA5OCA0OC4yNjg4QzExMS4yNzYgNDYuODgyOCAxMTMuNDU0IDQ2Ljg4MjggMTE1LjYzMiA0OC4yNjg4TDE0My44NDcgNjQuNzUyM0MxNDMuODQ3IDY0LjA1OTMgMTQzLjg0NyA2My4xNjgzIDE0My44NDcgNjIuMDc5M0MxNDMuODQ3IDU3LjMyNzMgMTQyLjY1OSA1Mi44MjI4IDE0MC4yODMgNDguNTY1OEMxMzguMDA2IDQ0LjIwOTggMTM0LjY5IDQwLjc0NDggMTMwLjMzNCAzOC4xNzA4QzEyNi4wNzcgMzUuNTk2OCAxMjEuMTI3IDM0LjMwOTggMTE1LjQ4NCAzNC4zMDk4QzExMC41MzQgMzQuMzA5OCAxMDYuMjI3IDM1LjM0OTMgMTAyLjU2NCAzNy40MjgzTDc0LjY0NjEgNTMuNDY2M0M3My42NTYxIDU0LjE1OTMgNzMuMTYxMSA1NS4wOTk4IDczLjE2MTEgNTYuMjg3OFY2OS4wNTg4TDEwOS4wOTggNDguMjY4OFoiCiAgLz4KPC9zdmc+" alt="" width="44" height="44" draggable="false"><span class="app-name">ChatGPT</span><svg class="link-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="bookmark" href="https://calendar.google.com/" aria-label="Calendar" target="_blank" rel="noopener noreferrer"><span class="app-icon calendar-icon" aria-hidden="true"><span data-icon-day>--</span></span><span class="app-name">Calendar</span><svg class="link-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></template><nav class="bookmarks" aria-label="Избранные сайты"></nav><section class="calendar" aria-label="Календарь"><header class="month-heading"><h3 class="month-label" data-month-label aria-live="polite" aria-atomic="true"></h3><div class="month-controls"><button class="nav-button" type="button" data-step-month="-1" aria-label="Предыдущий месяц" title="Предыдущий месяц"></button><button class="nav-button" type="button" data-step-month="1" aria-label="Следующий месяц" title="Следующий месяц"></button></div></header><table class="month-grid"><thead><tr><th scope="col" aria-label="Понедельник">пн</th><th scope="col" aria-label="Вторник">вт</th><th scope="col" aria-label="Среда">ср</th><th scope="col" aria-label="Четверг">чт</th><th scope="col" aria-label="Пятница">пт</th><th scope="col" aria-label="Суббота">сб</th><th scope="col" aria-label="Воскресенье">вс</th></tr></thead><tbody data-days></tbody></table><div class="selection"><button class="nav-button" type="button" data-step-day="-1" aria-label="Предыдущий день" title="Предыдущий день"></button><time class="selected-date" data-selected-date aria-live="polite" aria-atomic="true"></time><button class="nav-button" type="button" data-step-day="1" aria-label="Следующий день" title="Следующий день"></button></div><div class="reset-row"><button class="reset" type="button" data-today>Сегодня</button></div></section></div><section class="agenda" data-agenda aria-label="События Apple Calendar"><header class="agenda-header"><div class="agenda-title-row"><h2 class="agenda-heading" data-agenda-heading></h2><span class="event-count" data-event-count></span></div><div class="sync-controls"><span class="sync-status" data-sync-status role="status">Подключение к Apple Calendar…</span><details class="calendar-list" data-calendar-list></details><button class="refresh-events" data-refresh-events type="button">Обновить</button></div></header><div class="event-list" data-event-list></div></section></div></main>
+<script src="./calendar-bridge-config.js"></script>
 <script>
-  function tick() {
-    const now = new Date();
-    document.getElementById("clock").textContent =
-      String(now.getHours()).padStart(2, "0") + ":" +
-      String(now.getMinutes()).padStart(2, "0");
-    const h = now.getHours();
-    const greet = h < 5 ? "Доброй ночи" : h < 12 ? "Доброе утро" :
-                  h < 18 ? "Добрый день" : "Добрый вечер";
-    document.getElementById("date").textContent =
-      greet + " · " + now.toLocaleDateString("ru-RU",
-        { weekday: "short", day: "numeric", month: "long" });
-  }
-  tick();
-  setInterval(tick, 10000);
-  document.addEventListener("keydown", e => {
-    if (e.key === "/" && document.activeElement.id !== "q") {
-      e.preventDefault();
-      document.getElementById("q").focus();
+(() => {
+  const fullDate = new Intl.DateTimeFormat('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const dateFormat = new Intl.DateTimeFormat('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
+  const shortDate = new Intl.DateTimeFormat('ru-RU', { weekday: 'short', day: 'numeric', month: 'short' });
+  const monthFormat = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' });
+  const clockFormat = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit', hour12: false });
+  const dateKey = d => [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
+  const parseKey = key => { const [y,m,d] = key.split('-').map(Number); return new Date(y,m-1,d); };
+  const sameMonth = (a,b) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth();
+  const chevron = direction => `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="${direction < 0 ? 'm10 4-4 4 4 4' : 'm6 4 4 4-4 4'}" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  document.querySelectorAll('.scene').forEach(root => {
+    const q = selector => root.querySelector(selector);
+    const clock = q('[data-clock]');
+    const dateLabel = q('[data-date]');
+    const calendar = q('.calendar');
+    const monthLabel = q('[data-month-label]');
+    const monthTable = q('.month-grid');
+    const dayRows = q('[data-days]');
+    const selectedLabel = q('[data-selected-date]');
+    const todayButton = q('[data-today]');
+    let selected = parseKey(dateKey(new Date()));
+    let view = new Date(selected.getFullYear(), selected.getMonth(), 1);
+    let lastToday = '';
+    let followToday = true;
+
+    function render() {
+      const now = new Date();
+      const today = dateKey(now);
+      const selectedKey = dateKey(selected);
+      const offset = (view.getDay() + 6) % 7;
+      const year = view.getFullYear(), month = view.getMonth();
+      const title = monthFormat.format(view).replace(' г.', '');
+      monthLabel.textContent = title;
+      monthTable.setAttribute('aria-label', title);
+      selectedLabel.textContent = shortDate.format(selected);
+      selectedLabel.dateTime = selectedKey;
+      todayButton.disabled = selectedKey === today && sameMonth(view,now);
+      const fragment = document.createDocumentFragment();
+      let selectedVisible = false;
+      for (let week = 0; week < 6; week++) {
+        const row = document.createElement('tr');
+        for (let day = 0; day < 7; day++) {
+          const value = new Date(year, month, 1 - offset + week * 7 + day);
+          const key = dateKey(value);
+          const cell = document.createElement('td');
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'day';
+          button.dataset.date = key;
+          button.textContent = value.getDate();
+          button.setAttribute('aria-label',fullDate.format(value));
+          button.setAttribute('aria-pressed',String(key === selectedKey));
+          button.tabIndex = key === selectedKey ? 0 : -1;
+          if (key === selectedKey) selectedVisible = true;
+          if (!sameMonth(value,view)) button.classList.add('outside');
+          if (day > 4) button.classList.add('weekend');
+          if (key === today) button.setAttribute('aria-current','date');
+          cell.append(button); row.append(cell);
+        }
+        fragment.append(row);
+      }
+      dayRows.replaceChildren(fragment);
+      if (!selectedVisible) q('.day:not(.outside)').tabIndex = 0;
+      root.dispatchEvent(new CustomEvent('zen-calendar-render'));
     }
+
+    function select(value, focusDay = false) {
+      selected = parseKey(dateKey(value));
+      view = new Date(selected.getFullYear(), selected.getMonth(), 1);
+      followToday = dateKey(selected) === dateKey(new Date());
+      render();
+      if (focusDay) q('.day[aria-pressed="true"]').focus({ preventScroll: true });
+    }
+
+    function stepDay(delta) {
+      select(new Date(selected.getFullYear(), selected.getMonth(), selected.getDate() + delta));
+    }
+
+    root.querySelectorAll('[data-step-month]').forEach(button => {
+      button.innerHTML = chevron(Number(button.dataset.stepMonth));
+      button.addEventListener('click',() => {
+        const target = new Date(view.getFullYear(), view.getMonth() + Number(button.dataset.stepMonth), 1);
+        const last = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
+        select(new Date(target.getFullYear(), target.getMonth(), Math.min(selected.getDate(), last)));
+      });
+    });
+    root.querySelectorAll('[data-step-day]').forEach(button => {
+      button.innerHTML = chevron(Number(button.dataset.stepDay));
+      button.addEventListener('click',() => stepDay(Number(button.dataset.stepDay)));
+    });
+    dayRows.addEventListener('click',event => {
+      const day = event.target.closest('[data-date]');
+      if (day && dayRows.contains(day)) select(parseKey(day.dataset.date),true);
+    });
+    calendar.addEventListener('keydown',event => {
+      const day = event.target.closest('.day');
+      if (!day || event.ctrlKey || event.metaKey || event.altKey) return;
+      const value = parseKey(day.dataset.date);
+      const deltas = { ArrowLeft:-1, ArrowRight:1, ArrowUp:-7, ArrowDown:7 };
+      let next;
+      if (event.key in deltas) next = new Date(value.getFullYear(),value.getMonth(),value.getDate()+deltas[event.key]);
+      else if (event.key === 'Home' || event.key === 'End') {
+        const offset = (value.getDay()+6)%7;
+        next = new Date(value.getFullYear(),value.getMonth(),value.getDate()-offset+(event.key === 'End'?6:0));
+      } else if (event.key === 'PageUp' || event.key === 'PageDown') {
+        const delta = event.key === 'PageUp'?-1:1;
+        const last = new Date(value.getFullYear(),value.getMonth()+delta+1,0).getDate();
+        next = new Date(value.getFullYear(),value.getMonth()+delta,Math.min(value.getDate(),last));
+      } else return;
+      event.preventDefault(); select(next,true);
+    });
+    todayButton.addEventListener('click',() => select(new Date()));
+
+    function tick() {
+      const now = new Date(), today = dateKey(now), time = clockFormat.format(now);
+      if (clock.textContent !== time) { clock.textContent = time; clock.setAttribute('aria-label','Текущее время, '+time); }
+      clock.dateTime = today + 'T' + time;
+      if (lastToday !== today) {
+        if (followToday) { selected = parseKey(today); view = new Date(now.getFullYear(),now.getMonth(),1); }
+        lastToday = today;
+        dateLabel.textContent = dateFormat.format(now); dateLabel.dateTime = today;
+        const iconDay = q('[data-icon-day]'); if (iconDay) iconDay.textContent = now.getDate(); render();
+      }
+    }
+    tick(); setInterval(tick,1000);
+    document.addEventListener('visibilitychange',() => { if (!document.hidden) tick(); });
   });
+})();
+
+(() => {
+  const configuration = window.ZEN_CALENDAR_BRIDGE;
+  const keyFor = value => [value.getFullYear(), String(value.getMonth() + 1).padStart(2, '0'), String(value.getDate()).padStart(2, '0')].join('-');
+  const parseDay = key => { const [y,m,d] = key.split('-').map(Number); return new Date(y,m-1,d); };
+  const nextDay = key => { const d = parseDay(key); return new Date(d.getFullYear(),d.getMonth(),d.getDate()+1); };
+  const timeFormat = new Intl.DateTimeFormat('ru-RU',{hour:'2-digit',minute:'2-digit',hour12:false});
+  const dayFormat = new Intl.DateTimeFormat('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+  const dateTimeFormat = new Intl.DateTimeFormat('ru-RU',{dateStyle:'medium',timeStyle:'short'});
+  const fullDayFormat = new Intl.DateTimeFormat('ru-RU',{dateStyle:'long'});
+  const safeColor = value => /^#[0-9a-f]{6}$/i.test(value || '') ? value : '#b8b8ad';
+
+  function eventsForDay(payload, key) {
+    const start = parseDay(key).getTime(), end = nextDay(key).getTime();
+    return payload.events.filter(event => {
+      if (event.allDay) return event.startDay <= key && (event.endDay > key || event.startDay === key && event.endDay === event.startDay);
+      const eventStart = Date.parse(event.start), eventEnd = Date.parse(event.end);
+      return eventStart < end && (eventEnd > start || eventStart === eventEnd && eventStart >= start);
+    }).sort((a,b) => Number(b.allDay)-Number(a.allDay) || Date.parse(a.start)-Date.parse(b.start) || a.title.localeCompare(b.title,'ru'));
+  }
+
+  function element(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined && text !== null) node.textContent = String(text);
+    return node;
+  }
+
+  function chevron(className = '') {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    for (const [name,value] of Object.entries({viewBox:'0 0 24 24',fill:'none',stroke:'currentColor','stroke-width':'1.6','stroke-linecap':'round','stroke-linejoin':'round','aria-hidden':'true',focusable:'false',class:'disclosure-chevron ' + className})) svg.setAttribute(name,value);
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','m6 9 6 6 6-6');
+    svg.append(path);
+    return svg;
+  }
+
+  function safeURL(value) {
+    try { const parsed = new URL(value); return ['https:','http:'].includes(parsed.protocol) ? parsed : null; }
+    catch { return null; }
+  }
+
+  function eventTime(event, key) {
+    if (event.allDay) return 'Весь день';
+    const start = new Date(event.start), end = new Date(event.end);
+    if (start.getTime() === end.getTime()) return timeFormat.format(start);
+    if (start < parseDay(key) && end >= nextDay(key)) return 'Продолжается';
+    if (start < parseDay(key)) return 'до ' + timeFormat.format(end);
+    if (end > nextDay(key)) return 'с ' + timeFormat.format(start);
+    return timeFormat.format(start) + '–' + timeFormat.format(end);
+  }
+
+  function personName(person) {
+    if (!person) return '';
+    if (person.name) return person.name;
+    try { return decodeURIComponent((person.url || '').replace(/^mailto:/i,'')); }
+    catch { return person.url || ''; }
+  }
+
+  function recurrenceText(rule) {
+    const single = ['Каждый день','Каждую неделю','Каждый месяц','Каждый год'];
+    const units = [['день','дня','дней'],['неделю','недели','недель'],['месяц','месяца','месяцев'],['год','года','лет']];
+    const n = rule.interval, last = n % 10, hundred = n % 100;
+    const form = hundred >= 11 && hundred <= 14 ? 2 : last === 1 ? 0 : last >= 2 && last <= 4 ? 1 : 2;
+    let label = n === 1 ? (single[rule.frequency] || 'Повторяется') : 'Раз в ' + n + ' ' + (units[rule.frequency]?.[form] || 'периодов');
+    if (rule.daysOfWeek?.length) label += ', ' + rule.daysOfWeek.map(value=>['','вс','пн','вт','ср','чт','пт','сб'][value.day]).filter(Boolean).join(', ');
+    if (rule.daysOfMonth?.length) label += ', числа: ' + rule.daysOfMonth.join(', ');
+    if (rule.end?.date) label += ', до ' + fullDayFormat.format(new Date(rule.end.date));
+    if (rule.end?.count) label += ', ' + rule.end.count + ' повторений';
+    return label;
+  }
+
+  document.querySelectorAll('.scene').forEach(root => {
+    const q = selector => root.querySelector(selector);
+    const agenda = q('[data-agenda]');
+    if (!agenda) return;
+    const heading = q('[data-agenda-heading]'), status = q('[data-sync-status]');
+    const list = q('[data-event-list]'), legend = q('[data-calendar-list]');
+    const refresh = q('[data-refresh-events]');
+    const cache = new Map();
+    let activeRange = '', payload = null, controller = null, requestNumber = 0, lastSelection = '', debounce;
+    let dayTransition = null, calendarSignature = '';
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function updateScrollEdges(viewport) {
+      const scroller = viewport.querySelector('.event-body-scroll');
+      viewport.toggleAttribute('data-scroll-top', scroller.scrollTop > 1);
+      viewport.toggleAttribute('data-scroll-bottom', scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop > 1);
+    }
+    const edgeObserver = new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        const viewport = entry.target.closest('.event-body-viewport');
+        if (viewport) updateScrollEdges(viewport);
+      });
+    });
+
+    function smoothDisclosure(item) {
+      let animation = null, bodyAnimation = null, targetOpen = false;
+      item.addEventListener('click', event => {
+        const summary = item.querySelector('summary');
+        if (event.target.closest('summary') !== summary) return;
+        event.preventDefault();
+        targetOpen = animation ? !targetOpen : !item.open;
+        const viewport = item.querySelector('.event-body-viewport');
+        const scroller = viewport.querySelector('.event-body-scroll');
+        const body = scroller.querySelector('.event-body');
+        const startHeight = item.getBoundingClientRect().height;
+        const currentStyle = item.open ? getComputedStyle(body) : null;
+        const startOpacity = currentStyle?.opacity || '0';
+        const startTransform = currentStyle?.transform || 'translateY(8px)';
+        animation?.cancel(); bodyAnimation?.cancel();
+        item.open = true;
+        item.toggleAttribute('data-closing', !targetOpen);
+        const closedHeight = summary.getBoundingClientRect().height + 2;
+        const endHeight = targetOpen ? list.clientHeight : closedHeight;
+        item.style.height = endHeight + 'px';
+        updateScrollEdges(viewport);
+        if (targetOpen) {
+          const bounds = item.getBoundingClientRect(), area = list.getBoundingClientRect();
+          const offset = bounds.bottom > area.bottom ? bounds.bottom - area.bottom : bounds.top < area.top ? bounds.top - area.top : 0;
+          if (offset) list.scrollBy({top:offset,behavior:reducedMotion.matches ? 'instant' : 'smooth'});
+        }
+        const finish = () => {
+          item.open = targetOpen;
+          item.style.removeProperty('height');
+          item.removeAttribute('data-closing');
+          animation = null; bodyAnimation = null;
+          updateScrollEdges(viewport);
+        };
+        if (reducedMotion.matches || !item.animate) { finish(); return; }
+        const timing = {duration:targetOpen ? 360 : 280,easing:'cubic-bezier(.22,1,.36,1)'};
+        animation = item.animate([{height:startHeight + 'px'},{height:endHeight + 'px'}],timing);
+        bodyAnimation = body.animate([
+          {opacity:startOpacity,transform:startTransform},
+          {opacity:targetOpen ? 1 : 0,transform:targetOpen ? 'translateY(0)' : 'translateY(6px)'}
+        ],timing);
+        animation.onfinish = finish;
+      });
+    }
+    let menuAnimation = null, menuTargetOpen = false;
+    function setCalendarMenu(open) {
+      const panel = legend.querySelector('.calendar-list-items');
+      if (!panel) return;
+      const style = legend.open ? getComputedStyle(panel) : null;
+      const start = {opacity:style?.opacity || '0',transform:style?.transform || 'translateY(-4px)'};
+      menuAnimation?.cancel();
+      menuTargetOpen = open;
+      legend.open = true;
+      legend.toggleAttribute('data-closing', !open);
+      const finish = () => {
+        legend.open = open;
+        legend.removeAttribute('data-closing');
+        menuAnimation = null;
+      };
+      if (reducedMotion.matches || !panel.animate) { finish(); return; }
+      menuAnimation = panel.animate([start,{opacity:open ? 1 : 0,transform:open ? 'translateY(0)' : 'translateY(-4px)'}],{
+        duration:220,easing:'cubic-bezier(.22,1,.36,1)'
+      });
+      menuAnimation.onfinish = finish;
+    }
+    legend.addEventListener('click',event => {
+      if (!event.target.closest('summary')) return;
+      event.preventDefault();
+      setCalendarMenu(menuAnimation ? !menuTargetOpen : !legend.open);
+    });
+    document.addEventListener('pointerdown',event => {
+      if (legend.open && !legend.contains(event.target)) setCalendarMenu(false);
+    });
+    document.addEventListener('keydown',event => {
+      if (event.key === 'Escape' && legend.open) {
+        event.preventDefault();
+        setCalendarMenu(false);
+        legend.querySelector('summary')?.focus();
+      }
+    });
+
+    function state() {
+      const buttons = root.querySelectorAll('.day[data-date]');
+      return { selected:q('[data-selected-date]').dateTime, start:buttons[0].dataset.date, end:keyFor(nextDay(buttons[buttons.length-1].dataset.date)) };
+    }
+
+    function describe(fieldList, label, value) {
+      if (!value) return;
+      const field = element('div','event-field');
+      if (String(value).length > 85) field.classList.add('event-field-wide');
+      field.append(element('dt','event-field-name',label),element('dd','event-field-value',value));
+      fieldList.append(field);
+    }
+
+    function detailsFor(event, calendar, selected) {
+      const item = element('details','event-details');
+      item.dataset.eventKey = (event.eventIdentifier || event.id) + '|' + event.start;
+      const summary = element('summary','event-summary');
+      const dot = element('span','event-color'); dot.style.backgroundColor = safeColor(calendar.color); dot.setAttribute('aria-hidden','true');
+      const text = element('span','event-summary-text');
+      const time = element('span','event-time',eventTime(event,selected));
+      const timing = element('span','event-timing'); timing.append(dot,time);
+      text.append(timing,element('span','event-title',event.title || 'Без названия'),element('span','event-calendar-name',calendar.title || 'Календарь'));
+      summary.append(text,chevron('event-expand'));
+      item.append(summary);
+      const body = element('div','event-body'), fields = element('dl','event-fields');
+      if (event.allDay) {
+        const last = parseDay(event.endDay); last.setDate(last.getDate()-1);
+        const first = parseDay(event.startDay);
+        describe(fields,'Дата',last > first ? fullDayFormat.format(first) + ' — ' + fullDayFormat.format(last) : fullDayFormat.format(first));
+      } else {
+        describe(fields,'Начало',dateTimeFormat.format(new Date(event.start)));
+        describe(fields,'Окончание',dateTimeFormat.format(new Date(event.end)));
+      }
+      describe(fields,'Календарь',[calendar.title,calendar.source].filter(Boolean).join(' · '));
+      describe(fields,'Место',event.location || event.structuredLocation?.title);
+      describe(fields,'Часовой пояс',event.timeZone);
+      describe(fields,'Организатор',personName(event.organizer));
+      if (event.attendees?.length) describe(fields,'Участники',event.attendees.map(person=>{
+        const name = personName(person), reply = ({1:'ожидает ответа',2:'принято',3:'отклонено',4:'под вопросом',5:'делегировано',6:'завершено',7:'в процессе'})[person.status];
+        return name + (reply ? ' (' + reply + ')' : '');
+      }).filter(Boolean).join(', '));
+      if (event.recurrence?.length) describe(fields,'Повтор',event.recurrence.map(recurrenceText).join('; '));
+      if (event.detached) describe(fields,'Повтор','Изменённый экземпляр повторяющегося события');
+      if (event.alarms?.length) describe(fields,'Напоминания',event.alarms.map(alarm => {
+        if (alarm.absoluteDate) return dateTimeFormat.format(new Date(alarm.absoluteDate));
+        const seconds = Number(alarm.relativeOffset);
+        if (!seconds) return 'В момент события';
+        let minutes = Math.round(Math.abs(seconds)/60);
+        const days = Math.floor(minutes/1440); minutes %= 1440;
+        const hours = Math.floor(minutes/60); minutes %= 60;
+        const duration = [days && days + ' дн.',hours && hours + ' ч.',minutes && minutes + ' мин.'].filter(Boolean).join(' ');
+        return (seconds < 0 ? 'За ' : 'Через ') + (duration || 'меньше минуты');
+      }).join('; '));
+      describe(fields,'Статус',({1:'Подтверждено',2:'Предварительно',3:'Отменено'})[event.status]);
+      describe(fields,'Занятость',({0:'Занят',1:'Свободен',2:'Под вопросом',3:'Недоступен'})[event.availability]);
+      if (event.createdAt) describe(fields,'Создано',dateTimeFormat.format(new Date(event.createdAt)));
+      if (event.modifiedAt) describe(fields,'Изменено',dateTimeFormat.format(new Date(event.modifiedAt)));
+      body.append(fields);
+      const url = safeURL(event.url);
+      if (url) {
+        const link = element('a','event-url',url.href); link.href = url.href; link.target = '_blank'; link.rel = 'noopener noreferrer'; body.append(link);
+      }
+      if (event.notes) body.append(element('p','event-notes',event.notes));
+      const viewport = element('div','event-body-viewport'), scroller = element('div','event-body-scroll');
+      scroller.append(body); viewport.append(scroller); item.append(viewport);
+      scroller.addEventListener('scroll',() => updateScrollEdges(viewport),{passive:true});
+      edgeObserver.observe(scroller); edgeObserver.observe(body);
+      smoothDisclosure(item);
+      return item;
+    }
+
+    function decorateDays() {
+      root.querySelectorAll('.day[data-date]').forEach(button => {
+        button.querySelector('.event-dots')?.remove();
+        if (!payload) return;
+        const events = eventsForDay(payload,button.dataset.date);
+        if (!events.length) { button.removeAttribute('title'); return; }
+        const dots = element('span','event-dots'); dots.setAttribute('aria-hidden','true');
+        const calendarIds = [...new Set(events.map(event=>event.calendarId))].slice(0,3);
+        calendarIds.forEach(id => { const dot = element('span','event-day-dot'); dot.style.backgroundColor = safeColor(payload.calendars.find(c=>c.id===id)?.color); dots.append(dot); });
+        button.append(dots);
+        button.title = events.length + ' событий';
+      });
+    }
+
+    function render() {
+      edgeObserver.disconnect();
+      const current = state();
+      const selectionChanged = lastSelection !== current.selected;
+      const previousScroll = list.scrollTop;
+      heading.textContent = dayFormat.format(parseDay(current.selected));
+      const open = new Set([...list.querySelectorAll('details[open]:not([data-closing])')].map(item=>item.dataset.eventKey));
+      list.replaceChildren();
+      if (payload) {
+        const events = eventsForDay(payload,current.selected);
+        q('[data-event-count]').textContent = events.length ? String(events.length) : '';
+        if (!events.length) list.append(element('p','agenda-empty','На этот день событий нет'));
+        events.forEach(event => {
+          const calendar = payload.calendars.find(c=>c.id===event.calendarId) || {};
+          const item = detailsFor(event,calendar,current.selected);
+          if (open.has(item.dataset.eventKey) && lastSelection === current.selected) item.open = true;
+          list.append(item);
+        });
+        const signature = JSON.stringify(payload.calendars);
+        if (calendarSignature !== signature) {
+          calendarSignature = signature;
+          menuAnimation?.cancel(); menuAnimation = null;
+          legend.removeAttribute('data-closing');
+          legend.replaceChildren();
+          const summary = element('summary','calendar-list-title');
+          summary.append(element('span','','Календари · ' + payload.calendars.length),chevron());
+          const calendars = element('ul','calendar-list-items');
+          payload.calendars.forEach(calendar => {
+            const item = element('li','calendar-list-item'), dot = element('span','event-color');
+            dot.style.backgroundColor = safeColor(calendar.color); dot.setAttribute('aria-hidden','true');
+            item.append(dot,element('span','',calendar.title + (calendar.source ? ' · ' + calendar.source : ''))); calendars.append(item);
+          });
+          legend.append(summary,calendars);
+        }
+      } else {
+        q('[data-event-count]').textContent = '';
+        list.append(element('p','agenda-empty','Подключение к Apple Calendar…'));
+        menuAnimation?.cancel(); menuAnimation = null;
+        legend.open = false; calendarSignature = '';
+        legend.replaceChildren();
+      }
+      list.scrollTop = selectionChanged ? 0 : previousScroll;
+      if (selectionChanged && lastSelection) {
+        dayTransition?.cancel();
+        if (!reducedMotion.matches && list.animate) {
+          dayTransition = list.animate([{opacity:0},{opacity:1}],{
+            duration:300,easing:'cubic-bezier(.22,1,.36,1)'
+          });
+        }
+      }
+      lastSelection = current.selected;
+      decorateDays();
+    }
+
+    async function load(force = false) {
+      const current = state(), range = current.start + '/' + current.end;
+      if (activeRange !== range) {
+        activeRange = range; payload = cache.get(range) || null; render();
+      }
+      if (!force && cache.has(range)) {
+        payload = cache.get(range); render();
+        if (Date.now() - Date.parse(payload.updatedAt) < 30_000) {
+          status.textContent = 'Apple Calendar · обновлено ' + timeFormat.format(new Date(payload.updatedAt));
+          refresh.disabled = false;
+          return;
+        }
+      }
+      if (!configuration?.token || configuration.baseURL !== 'http://127.0.0.1:8766') {
+        status.textContent = 'Apple Calendar не подключён';
+        list.replaceChildren(element('p','agenda-empty','Локальный помощник ещё не настроен.')); return;
+      }
+      controller?.abort(); controller = new AbortController();
+      const currentController = controller, number = ++requestNumber;
+      const timeout = setTimeout(()=>currentController.abort(),10_000);
+      refresh.disabled = true; status.textContent = 'Обновление Apple Calendar…';
+      try {
+        const response = await fetch(configuration.baseURL + '/v1/events?' + new URLSearchParams({start:current.start,end:current.end}),{
+          method:'GET',headers:{Authorization:'Bearer '+configuration.token},signal:currentController.signal,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'
+        });
+        const data = await response.json();
+        if (number !== requestNumber) return;
+        if (!response.ok) {
+          if (data.error === 'calendar_permission') throw new Error('permission');
+          throw new Error('service');
+        }
+        if (data.access !== 'granted' || data.start !== current.start || data.end !== current.end || !Array.isArray(data.events) || !Array.isArray(data.calendars)) throw new Error('service');
+        payload = data; cache.set(range,data);
+        if (cache.size > 12) cache.delete(cache.keys().next().value);
+        render();
+        status.textContent = 'Apple Calendar · обновлено ' + timeFormat.format(new Date(data.updatedAt));
+      } catch (error) {
+        if (number !== requestNumber) return;
+        status.textContent = error.message === 'permission' ? 'Нужен доступ к Apple Calendar' : 'Apple Calendar временно недоступен';
+        if (!payload) list.replaceChildren(element('p','agenda-empty',error.message === 'permission'
+          ? 'Разреши доступ Zen Calendar Bridge в настройках macOS: «Конфиденциальность и безопасность → Календари».'
+          : 'Локальный помощник не отвечает. Нажми «Обновить», чтобы повторить подключение.'));
+      } finally {
+        clearTimeout(timeout);
+        if (number === requestNumber) refresh.disabled = false;
+      }
+    }
+
+    root.addEventListener('zen-calendar-render',()=>{
+      const current = state(), range = current.start + '/' + current.end;
+      if (range !== activeRange) { requestNumber += 1; controller?.abort(); payload = cache.get(range) || null; }
+      render(); clearTimeout(debounce); debounce = setTimeout(()=>load(false),60);
+    });
+    refresh.addEventListener('click',()=>load(true));
+    window.addEventListener('focus',()=>load(true));
+    document.addEventListener('visibilitychange',()=>{ if (!document.hidden) load(true); });
+    setInterval(()=>{ if (!document.hidden) load(true); },30_000);
+    render(); load(true);
+  });
+  if (window.ZEN_CALENDAR_TESTING) window.ZenCalendarTest = {eventsForDay,eventTime,safeURL,safeColor};
+})();
+
+(() => {
+  const config = window.ZEN_CALENDAR_BRIDGE;
+  const nav = document.querySelector('.bookmarks');
+  const reveal = () => document.documentElement.classList.remove('startpage-loading');
+  const unavailable = () => {
+    if (!nav || nav.childNodes.length) { reveal(); return; }
+    const message = document.createElement('p'); message.className = 'bookmarks-empty';
+    message.textContent = 'Не удалось загрузить закреплённые вкладки';
+    nav.replaceChildren(message); reveal();
+  };
+  if (!nav || !config?.token || config.baseURL !== 'http://127.0.0.1:8766') { unavailable(); return; }
+  const key = value => {
+    try { return new URL(value).hostname.replace(/^www\./,''); }
+    catch { return ''; }
+  };
+  const presetRoot = document.querySelector('[data-pin-presets]')?.content || nav;
+  const presets = new Map([...presetRoot.querySelectorAll('a.bookmark')].map(link => [key(link.href),link.cloneNode(true)]));
+  const arrow = presetRoot.querySelector('.link-arrow')?.cloneNode(true);
+  const cacheKey = 'zen-startpage-pins-v1';
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let signature = '', controller = null, transition = null;
+  reducedMotion.addEventListener('change',() => { if (reducedMotion.matches) transition?.cancel(); });
+  let notice = null, noticeTimer = null;
+  function notify(text) {
+    if (!notice) {
+      notice = document.createElement('p'); notice.className = 'pin-action-notice';
+      notice.setAttribute('role','alert'); document.body.append(notice);
+    }
+    notice.textContent = text; notice.hidden = false;
+    clearTimeout(noticeTimer); noticeTimer = setTimeout(() => { notice.hidden = true; },5000);
+  }
+  nav.addEventListener('click',async event => {
+    if (!event.isTrusted || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest('a.bookmark');
+    if (!link || !nav.contains(link) || !safeURL(link.href)) return;
+    event.preventDefault();
+    if (link.getAttribute('aria-busy') === 'true') return;
+    link.setAttribute('aria-busy','true');
+    const request = new AbortController(), timeout = setTimeout(() => request.abort(),2500);
+    try {
+      const response = await fetch('http://127.0.0.1:8767/v1/activate-pin',{
+        method:'POST',headers:{Authorization:'Bearer ' + config.token,'Content-Type':'application/json'},
+        body:JSON.stringify({url:link.href}),signal:request.signal,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'
+      });
+      if (!response.ok || !(await response.json()).ok) throw new Error('activation');
+    } catch {
+      notify('Не удалось переключить закреплённую вкладку. Попробуй ещё раз.');
+      update();
+    } finally { clearTimeout(timeout); link.removeAttribute('aria-busy'); }
+  });
+
+  function safeURL(value) {
+    try { const url = new URL(value); return ['http:','https:'].includes(url.protocol) && !url.username && !url.password ? url : null; }
+    catch { return null; }
+  }
+  function safeImage(value) {
+    return typeof value === 'string' && value.length <= 512 * 1024
+      && /^data:image\/(png|jpeg|gif|webp|avif|x-icon|vnd.microsoft.icon|svg\+xml)[;,]/i.test(value);
+  }
+  function card(pin) {
+    const url = safeURL(pin.url);
+    if (!url) return null;
+    const preset = presets.get(key(url.href));
+    const link = document.createElement('a');
+    link.className = 'bookmark'; link.href = url.href;
+    link.target = '_blank'; link.rel = 'noopener noreferrer';
+    let icon;
+    if (pin.customIcon && pin.symbol) {
+      icon = document.createElement('span'); icon.className = 'app-icon pin-symbol'; icon.textContent = pin.symbol;
+    } else if ((!preset || pin.customIcon) && safeImage(pin.image)) {
+      icon = document.createElement('img'); icon.className = 'app-icon'; icon.src = pin.image; icon.alt = '';
+    } else if (preset) {
+      icon = preset.querySelector('.app-icon')?.cloneNode(true);
+    }
+    if (!icon) {
+      icon = document.createElement('span'); icon.className = 'app-icon pin-monogram';
+      icon.textContent = (pin.title || url.hostname.replace(/^www\./,'')).trim().slice(0,1).toUpperCase();
+    }
+    icon.setAttribute('aria-hidden','true');
+    const day = icon.matches('[data-icon-day]') ? icon : icon.querySelector('[data-icon-day]');
+    if (day) day.textContent = new Date().getDate();
+    const label = document.createElement('span'); label.className = 'app-name';
+    label.textContent = preset?.querySelector('.app-name')?.textContent || pin.title || url.host;
+    link.setAttribute('aria-label',label.textContent); link.title = label.textContent;
+    link.append(icon,label);
+    if (arrow) link.append(arrow.cloneNode(true));
+    return link;
+  }
+  function render(data) {
+    if (!Array.isArray(data.pins)) return;
+    const next = JSON.stringify(data.pins);
+    if (next === signature) return;
+    const content = document.createDocumentFragment();
+    data.pins.forEach(pin => { if (pin && typeof pin === 'object') { const link = card(pin); if (link) content.append(link); } });
+    if (!content.childNodes.length) {
+      const empty = document.createElement('p'); empty.className = 'bookmarks-empty';
+      empty.textContent = 'Закреплённых вкладок пока нет'; content.append(empty);
+    }
+    const focused = nav.contains(document.activeElement) ? document.activeElement.href : null;
+    const firstUpdate = !signature;
+    signature = next;
+    transition?.cancel();
+    nav.replaceChildren(content);
+    reveal();
+    try { sessionStorage.setItem(cacheKey, next); } catch { /* Storage may be unavailable on file URLs. */ }
+    nav.setAttribute('aria-label','Закреплённые вкладки Zen');
+    if (focused) [...nav.querySelectorAll('a')].find(a => a.href === focused)?.focus({preventScroll:true});
+    if (!firstUpdate && !reducedMotion.matches && nav.animate) {
+      transition = nav.animate([{opacity:0},{opacity:1}],{duration:300,easing:'cubic-bezier(.22,1,.36,1)'});
+    }
+  }
+  async function update() {
+    controller?.abort(); controller = new AbortController();
+    const request = controller;
+    const timeout = setTimeout(() => request.abort(),5000);
+    try {
+      const response = await fetch(config.baseURL + '/v1/pins',{
+        headers:{Authorization:'Bearer ' + config.token},signal:request.signal,
+        cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'
+      });
+      if (!response.ok) throw new Error('pins');
+      const data = await response.json();
+      if (!Array.isArray(data.pins)) throw new Error('pins');
+      if (controller === request) render(data);
+    } catch { if (controller === request) unavailable(); }
+    finally { clearTimeout(timeout); }
+  }
+  window.addEventListener('focus',update);
+  document.addEventListener('visibilitychange',() => { if (!document.hidden) update(); });
+  setInterval(() => { if (!document.hidden) update(); },30000);
+  try {
+    const cached = JSON.parse(sessionStorage.getItem(cacheKey));
+    if (Array.isArray(cached)) render({pins:cached});
+  } catch { /* The first load waits for the helper instead of showing sample cards. */ }
+  update();
+})();
+
 </script>
 </body>
 </html>
