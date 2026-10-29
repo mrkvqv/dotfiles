@@ -1,6 +1,10 @@
 theme = Midnight MacBook
-background-blur = 80
-cursor-color = #FFFFFF
+# Plum-tinted glass; colors and opacity come from the shared Zed theme.
+background-blur = 24
+font-size = 14
+window-padding-x = 14
+window-padding-y = 12
+window-padding-balance = true
 cursor-style = bar
 
 

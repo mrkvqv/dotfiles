@@ -4,26 +4,26 @@ if not status is-interactive
 end
 
 set --global fish_color_cancel --reverse
-set --global fish_color_cwd green
+set --global fish_color_cwd c7a4d5
 set --global fish_color_cwd_root red
 set --global fish_color_gray
 set --global fish_color_history_current --bold
 set --global fish_color_host --reset
 set --global fish_color_host_remote yellow
 set --global fish_color_normal --reset
-set --global fish_color_search_match white --bold --background=brblack
-set --global fish_color_selection white --bold --background=brblack
+set --global fish_color_search_match e8dfea --background=49364f
+set --global fish_color_selection e8dfea --background=49364f
 set --global fish_color_status red
-set --global fish_color_user brgreen
+set --global fish_color_user 8fd8e8
 set --global fish_color_valid_path --underline=single
-set --global fish_pager_color_completion BBB
-set --global fish_pager_color_description yellow --italics
-set --global fish_pager_color_prefix --bold --underline=single
-set --global fish_pager_color_progress brwhite --bold --background=cyan
-set --global fish_pager_color_selected_background --reverse
-set --global fish_pager_color_selected_completion
-set --global fish_pager_color_selected_description
-set --global fish_pager_color_selected_prefix
+set --global fish_pager_color_completion e8dfea
+set --global fish_pager_color_description a395a8 --italics
+set --global fish_pager_color_prefix c7a4d5 --bold
+set --global fish_pager_color_progress c7a4d5 --background=33273b
+set --global fish_pager_color_selected_background --background=49364f
+set --global fish_pager_color_selected_completion e8dfea
+set --global fish_pager_color_selected_description c4b5cd
+set --global fish_pager_color_selected_prefix ddc0e8 --bold
 
 begin
     set -l palette_file (path dirname (status filename))/../../shell/colors.conf
