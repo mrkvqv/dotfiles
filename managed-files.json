@@ -52,6 +52,7 @@
   ".config/zen-startpage/startpage.html",
   ".gitconfig",
   ".profile",
+  ".t3/userdata/themes/midnight-macbook.json",
   ".zshenv",
   ".zshrc",
   "Library/LaunchAgents/local.desktop-assignments.diagnostics.plist",
