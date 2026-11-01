@@ -174,7 +174,11 @@ bash ~/dotfiles/scripts/install_desktop_switch.sh
 
 A shared plum palette for Zed, Ghostty and T3 Code: background `#19121d`, text
 `#e8dfea` and lilac accents `#c7a4d5`. Syntax highlighting separates violet, blue,
-pink and ice-blue tones. Zed's title bar uses a uniform dark background.
+pink and ice-blue tones. The Prism text palette uses violet keywords, pink methods,
+blue types and ice-blue strings. Renamed Git files use a stronger violet accent.
+Zed's title bar uses a uniform dark background. Ghostty overrides its ANSI blue
+slots with soft off-white, so directory listings stay neutral without changing
+Zed's syntax colors.
 
 The T3 theme is stored separately from application data:
 
@@ -185,6 +189,23 @@ The T3 theme is stored separately from application data:
 `home/.t3/userdata/themes/` contains only the theme JSON.
 `snapshots/t3/appearance.json` contains only the theme name, internal glass opacity
 and contrast. T3 credentials, chats and databases are not exported.
+
+T3's send button uses a brighter lilac fill with a dark arrow. Its running/stop
+button uses violet through the shared destructive-action color; error text keeps
+its separate rose color.
+
+### Sonora
+
+The installed Sonora app uses the matching Midnight MacBook theme, with 82%
+window opacity and blur. The normal window keeps the fixed plum palette;
+the fullscreen player samples cover colors through Ambient with motion disabled.
+
+The custom theme is tracked under
+`home/Library/Application Support/sonora/themes/midnight-macbook.json`.
+`snapshots/sonora/appearance.json` contains only the selected appearance fields.
+After restoring the theme, merge that snapshot's `appearance` fields into Sonora's
+settings while the app is closed, or select the theme and options in Appearance.
+The full settings file, accounts, playback state and databases are not exported.
 
 ### Zen Startpage
 
