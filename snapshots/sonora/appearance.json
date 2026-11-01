@@ -1,0 +1,12 @@
+{
+  "appearance": {
+    "theme": "midnight-macbook",
+    "adaptive_theme": false,
+    "ambient": true,
+    "ambient_motion": false,
+    "transparent": true,
+    "transparency": 0.18,
+    "blur": true,
+    "blur_window": true
+  }
+}

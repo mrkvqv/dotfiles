@@ -24,6 +24,7 @@ PATTERNS = [
     ".config/zen-startpage/bridge/*.js", ".config/zen-startpage/bridge/*.css",
     ".config/zen-startpage/bridge/*.md",
     ".t3/userdata/themes/*.json",
+    "Library/Application Support/sonora/themes/*.json",
     ".config/opencode/opencode.json", ".config/opencode/package.json", ".config/opencode/package-lock.json",
     ".config/desktop-assignments.json", ".config/desktop-assignments-sync.swift",
     ".config/desktop-assignments.README.md",
@@ -150,6 +151,19 @@ def export_t3_appearance():
         json_file(ROOT / "snapshots/t3/appearance.json", result)
 
 
+def export_sonora_appearance():
+    """Export appearance only, without music accounts or playback state."""
+    source = HOME / "Library/Application Support/sonora/settings.json"
+    if not source.is_file():
+        return
+    appearance = json.loads(source.read_text()).get("appearance", {})
+    keys = ("theme", "adaptive_theme", "ambient", "ambient_motion",
+            "transparent", "transparency", "blur", "blur_window")
+    json_file(ROOT / "snapshots/sonora/appearance.json", {
+        "appearance": {key: appearance[key] for key in keys if key in appearance}
+    })
+
+
 def main():
     previous = ROOT / "managed-files.json"
     if previous.exists():
@@ -172,6 +186,7 @@ def main():
     export_zen()
     export_raycast()
     export_t3_appearance()
+    export_sonora_appearance()
     extensions = HOME / "Library/Application Support/Zed/extensions/installed"
     json_file(ROOT / "snapshots/zed/extensions.json", sorted(path.name for path in extensions.iterdir() if path.is_dir()))
     files = sorted(str(path.relative_to(ROOT / "home")) for path in (ROOT / "home").rglob("*") if path.is_file())
