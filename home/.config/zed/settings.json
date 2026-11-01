@@ -1,5 +1,6 @@
 {
   "edit_predictions": {
+    "mode": "eager",
     "provider": "zed"
   },
   "icon_theme": "Zed (Default)",
