@@ -68,8 +68,8 @@ detect_extensions = []
 detect_files = []
 
 [palettes.midnight_plum]
-lavender = "#d6a0ff"
-rose = "#f0a3cd"
-ice = "#8fd8e8"
-mist = "#9dced0"
+lavender = "#dc9cff"
+rose = "#ff9fce"
+ice = "#7edbea"
+mist = "#8cbcff"
 muted = "#a395a8"
