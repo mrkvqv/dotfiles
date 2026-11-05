@@ -2,6 +2,9 @@ theme = Midnight MacBook
 # Terminal-only blue replacements; keep Zed's syntax palette independent.
 palette = 4=#d3cbd8
 palette = 12=#ded6e3
+# Distinct gold for ANSI yellow, including Git-modified names in nls.
+palette = 3=#ffc777
+palette = 11=#ffdfa1
 # Plum-tinted glass; colors and opacity come from the shared Zed theme.
 background-blur = 24
 font-size = 14
